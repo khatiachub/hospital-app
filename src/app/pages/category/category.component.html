@@ -1,0 +1,32 @@
+<div *ngFor="let category of categoryResponse">
+    <div class="category-card">
+        <div class="views-wrap">
+            <div class="views">
+                <img src="../../../assets/images/ic_baseline-remove-red-eye.png"/>
+                <p>129 371</p>
+            </div>
+            <div>
+                <img  src="../../../assets/images/pin-svgrepo-com 1.png"/>
+            </div>
+        </div>
+        <div class="details-wraper" (click)="clickOnCard(category.id)">
+            <div>
+                <img [src]="category.profileImage"/>
+            </div>
+            <h2 class="name-title">{{category!.name}} {{category!.lastName}}</h2>
+            <p class="category-title">{{category!.category}}</p>
+            <div class="stars">
+                <img src="../../../assets/images/material-symbols_star-rounded.png"/>
+                <img src="../../../assets/images/material-symbols_star-rounded.png"/>
+                <img src="../../../assets/images/material-symbols_star-rounded.png"/>
+                <img src="../../../assets/images/material-symbols_star-rounded.png"/>
+            </div>
+            <div class="button">
+                <p>მიღებაზე ჩაწერა</p>
+                <div style="margin-top: 3px;">
+                    <img src="../../../assets/images/material-symbols_arrow-back-ios-rounded.png"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

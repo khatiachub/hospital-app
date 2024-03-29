@@ -1,0 +1,8 @@
+<div class="categories-card">
+   <div class="list-wraper">
+    <h2 class="list-title">კატეგორიები</h2>
+    <ul class="list" *ngFor="let category of cat">
+        <li class="title" (click)="getCategory(category.category)">{{category.category}}</li>
+    </ul>
+   </div>
+</div>

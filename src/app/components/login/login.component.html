@@ -1,0 +1,9 @@
+<div  class="container">
+    <form (click)="handleButtonClick($event)" class="form" [formGroup]="form" (ngSubmit)="Login()">
+        <label class="title">ავტორიზაცია</label>
+        <input formControlName="Email" class="input" placeholder="ელ. ფოსტა/ ტელეფონის ნომერი"/>
+        <input formControlName="Password" class="input" placeholder="პაროლი"/>
+        <p class="text">პაროლის აღდგენა</p>
+        <button type="submit" class="button">შესვლა</button>
+    </form>
+</div>

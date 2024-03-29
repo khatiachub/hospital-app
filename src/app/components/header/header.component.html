@@ -1,0 +1,55 @@
+<div class="header-wraper">
+    <div class="logo-div">
+        <img class="logo" src="../../../assets/images/logo 1.png"/>
+        <h3 class="clinic-text">კლინიკა</h3>
+    </div>
+    <nav class="navigation">
+        <div class="nav-border-div">
+        <a class="nav-link" routerLink="/home">ექიმები</a>
+        <a class="nav-link" routerLink="/#">კლინიკები</a>
+        <a class="nav-link" routerLink="/#">ანოტაციები</a>
+        <a class="nav-link" routerLink="/#">აქციები </a>
+        <a class="nav-link" routerLink="/#">სერვისები</a>
+        <a class="nav-link" routerLink="/#">მედიკამენტები</a>
+        <a class="nav-link" routerLink="/#">კონტაქტი</a> 
+        </div>
+        <div (click)="goToProfile(user.id)" class="nav-auth-button" *ngIf="user&&!admin;">
+            <p class="nav-link-login">{{user.name}} {{user.lastName}}</p>                                        
+        </div>
+        <div (click)="goToAdminPanel(user.id)" class="nav-auth-button" *ngIf="admin">
+            <p class="nav-link-login">{{admin}}</p>                                        
+        </div>
+        <div *ngIf="!user&&!admin">
+            <button  class="nav-auth-button">
+                <p class="nav-link-login" (click)="Authorize()">ავტორიზაცია</p>                                        
+                <a class="nav-link" routerLink="/registration">/ რეგისტრაცია</a>
+            </button>
+        </div>
+
+        <button class="nav-lang-button">ENG</button>                                                                         
+    </nav>
+</div>
+<div class="container">
+    <div class="wraper">
+        <div class="list-container">
+            <div class="list" style="max-width: 160px;">
+                <div class="image-wraper">
+                    <img src="../../../assets/images/call-svgrepo-com (3) 1.png"/>
+                </div>
+                <span class="span-text">032 2 100 100</span>
+            </div>
+            <div class="list" style="margin-left: 15px;">
+                <div class="image-wraper">
+                    <img src="../../../assets/images/location-svgrepo-com (1) 2.png"/>
+                </div>
+                <span class="span-text">იაკობ ნიკოლაძე №10</span>
+            </div>
+        </div>
+        
+        <input class="search-input" placeholder="მოძებნე ექიმი სახელით"/>
+        <input class="search-input" placeholder="მოძებნე სპეციალობით"/>
+        <div class="image-wraper img-div">
+            <img src="../../../assets/images/ri_search-line.png"/>
+        </div>
+    </div>
+</div>

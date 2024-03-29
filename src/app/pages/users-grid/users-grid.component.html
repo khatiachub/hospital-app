@@ -1,0 +1,42 @@
+<div class="wraper">
+  <table>
+    <caption>
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">სახელი</th>
+        <th scope="col">იმეილი</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let user of users">
+      <tr >
+        <td scope="row">{{user.name}} {{user.lastName}}</td>
+        <td>{{user.email}}</td>
+        <td class="buttons">
+            <button (click)="showDeleteWindow(user.id)" class="delete-button button">
+              <img src="../../../assets/images/delete-svgrepo-com 10.png"/>
+            </button>
+            <button (click)="editUser(user.id)" class="edit-button button">
+              <img src="../../../assets/images/edit-svgrepo-com 8.png"/>
+            </button>
+            <!-- <button class="download-button button">
+              <img src="../../../assets/images/download (1).svg"/>
+            </button> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="add-button" (click)="addUser()">დამატება</button>
+  <div *ngIf="isOpen" class="overlay">
+    <div *ngFor="let type of types">
+      <button (click)="navigateToRegister(type)" class="register-button" >{{type}}</button>
+    </div>
+  </div>
+  <div *ngIf="isOpen" class="overlay-container" (click)="removeOverlay()"></div>
+  <div *ngIf="delete" class="overlay">
+    <p>ნამდვილად გსურთ წაშლა?</p>
+    <button (click)="deleteUser()" class="register-button">წაშლა</button>
+    <button (click)="removeWindow()"  class="register-button">გაუქმება</button>
+  </div>
+</div>

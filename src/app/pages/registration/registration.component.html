@@ -1,0 +1,46 @@
+<div class="container">
+    <form class="form" [formGroup]="form" (ngSubmit)="registration()">
+        <label class="form-title">რეგისტრაცია</label>
+        <div class="form-div">
+            <div class="input-wraper">
+                <label>სახელი</label>
+                <input formControlName="Name" class="input" placeholder="( მინიმუმ 5 სიმბოლო )"/>
+            </div>
+            <div class="input-wraper">
+                <label>Email</label>
+                <input formControlName="Email" class="input" />
+            </div>
+            <div class="input-wraper">
+                <label>პირადი ნომერი</label>
+                <input formControlName="PrivateNumber" class="input" placeholder="00000000000"/>
+            </div>
+            <div class="input-wraper">
+                <label>გვარი</label>
+                <input formControlName="LastName" class="input" />
+            </div>
+            <div class="input-wraper">
+                <label>პაროლი</label>
+                <input formControlName="Password" class="input" placeholder="( მინიმუმ 8 სიმბოლო : @ 7 , )"/>
+            </div>
+            <div *ngIf="type==='ექიმი'" class="input-wraper">
+                <label>ფოტოსურათი</label>
+                <input type="file" (change)="onFileSelected($event,'ProfileImage')"  class="input"/>
+            </div>
+
+            <div *ngIf="type==='ექიმი'" class="input-wraper">
+                <label>კატეგორია</label>
+                <select  formControlName="Category" class="input">
+                    <option *ngFor="let category of categories"   class="input">{{category.category}}</option>
+                </select>
+            </div>
+
+            <div *ngIf="type==='ექიმი'" class="input-wraper">
+                <label>სივი</label>
+                <input type="file" (change)="onFileSelected($event,'Cv')"  class="input"/>
+            </div>
+            <button *ngIf="type!=='ექიმი'" type="submit" class="button">რეგისტრაცია</button>
+        </div>
+        <button *ngIf="type==='ექიმი'" type="submit" class="button">რეგისტრაცია</button>
+    </form>
+    <div class="success-register" *ngIf="success">რეგისტრაცია წარმატებით განხორციელდა, ვერიფიკაციის ლინკი გამოგზავნილია თქვენს იმეილზე!</div>
+</div>
