@@ -9,24 +9,27 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './category.component.scss'
 })
 export class CategoryComponent implements OnInit {
-  categoryResponse: any;
+  categoryResponse:User[]=[];
   public category:any;
   public allDoctors:any;
-  constructor(private dataService: DataService,private router:Router,private route:ActivatedRoute) {}
+  public url='http://localhost:5134/Upload/Files/'
+
+  constructor(private dataService: DataService,private router:Router) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.category = params['category'];      
-    });
+    this.category = history.state.category;
    
     this.dataService.getDoctorsByCategory(this.category).subscribe({
       next: (response) => {
+        JSON.stringify(response)
         this.categoryResponse=response;
+        console.log(this.categoryResponse);
+        console.log(response);
       },
       error: (error) => {
         console.error('GET request failed:', error);
       },
-    }); 
+    });     
   }
 
   public doctor!:User;

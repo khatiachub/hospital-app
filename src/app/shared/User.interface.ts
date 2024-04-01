@@ -6,5 +6,7 @@ export interface User{
     id:string,
     category:string,
     description:String,
-    role:string
+    role:string,
+    profileImage:string,
+    cv:string
   }

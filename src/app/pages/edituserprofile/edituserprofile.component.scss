@@ -1,20 +1,50 @@
 .wraper{
     box-shadow: 0px 4px 30px 0px #0533540D;
-    max-width: 450px;
     width: 100%;
     min-height: 315px;
     margin-top: 50px;
-    padding: 20px;
+    padding: 25px;
     border-radius: 10px;
     display: flex;
+    align-items:start;
+    justify-content: space-between;
+}
+
+.image-wraper{
+    display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: center;
+    justify-content: space-between;
+}
+.name-wraper{
+    display: flex;
+    justify-content: space-between;
+    width: 110px;
+}
+.category-title{
+    font-family: FiraGO;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.8px;
+    text-align: left;
+    color: #0533544D;
+}
+.edit-wraper{
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
     justify-content: space-around;
+}
+.name{
+    font-family: FiraGO;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 21.6px;
+    text-align: left;
+    color: #18A4E1;
 }
 .edit-box{
     display: flex;
-    min-width: 60px;
-    justify-content: space-between;
     align-items: start;
 }
 .text-box{
@@ -66,3 +96,33 @@
     left: 0px;
     background-color: #053354B2;
 }
+.profileimage{
+    width: 157px;
+    height: 157px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.button{
+    max-width: 300px;
+    width: 100%;
+    height: 40px;
+    border-radius: 50px;
+    background-color: #053354;
+    color:#fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    border: none;
+  }
+  
+  .input{
+    max-width: 300px;
+    width: 100%;
+    border: 1px solid #ECF2F8;
+    height: 40px;
+    border-radius: 50px;
+    outline: none;
+    margin-top: 10px;
+  }
+ 

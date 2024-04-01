@@ -8,8 +8,11 @@ import { DataService } from '../../core/data-service.service';
   styleUrl: './admin-panel.component.scss'
 })
 export class AdminPanelComponent {
-  constructor(private userService:DataService) {}
+  constructor(private userService:DataService,private router:Router) {}
 
+  goToGrid(params:string):void{
+    this.router.navigate(['/users-grid'],{state:{params}})
+  }
   logOut():void{
     this.userService.logout();
   }

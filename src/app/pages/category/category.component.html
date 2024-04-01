@@ -11,7 +11,7 @@
         </div>
         <div class="details-wraper" (click)="clickOnCard(category.id)">
             <div>
-                <img [src]="category.profileImage"/>
+                <img class="profileimage" [src]="url+category.profileImage"/>
             </div>
             <h2 class="name-title">{{category!.name}} {{category!.lastName}}</h2>
             <p class="category-title">{{category!.category}}</p>

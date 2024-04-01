@@ -1,10 +1,10 @@
 <div class="wraper">
     <div class="admin-menu">
-        <div>
-            <a routerLink="/users-grid">რეგისტრაცია</a> 
+        <div (click)="goToGrid('რეგისტრაცია')">
+            <a >რეგისტრაცია</a> 
         </div>
-        <div>კატეგორიები</div>
-        <div>ექიმები</div>
+        <div (click)="goToGrid('კატეგორიები')">კატეგორიები</div>
+        <div (click)="goToGrid('ექიმები')">ექიმები</div>
     </div>
     <button class="button" (click)="logOut()">სისტემიდან გასვლა</button>
     <!-- <button class="button">მომხმარებელი</button>

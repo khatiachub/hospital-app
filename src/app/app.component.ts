@@ -30,9 +30,7 @@ export class AppComponent implements OnInit{
        if(event.url==='/registration'||adminPanelPath||event.url==='/users-grid'||edituser){
         this.showCategories=false
        }else{
-        this.showCategories=true;
-        console.log(event.url);
-        
+        this.showCategories=true;        
        }       
     });
   }

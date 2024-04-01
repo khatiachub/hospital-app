@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -16,8 +16,8 @@ export class DataService {
     return this.http.post(`${this.url}/register`, data,
     );
   }
-  registerDoctorAndAdmin(data: any): Observable<any> {
-    return this.http.post(`${this.url}/AddUsersByRoles`, data,
+  registerDoctorAndAdmin(formData:FormData): Observable<any> {
+    return this.http.post(`${this.url}/AddUsersByRoles`, formData,
     );
   }
   login(data: any): Observable<any> {
@@ -34,6 +34,19 @@ export class DataService {
   changePassword(data:any,id:string): Observable<any> {
   return this.http.post<any>(`${this.url}/ChangePassword/${id}`,data);
   }
+  //categories
+  getCategories(): Observable<any> {
+    return this.http.get<any>(`${this.url}/GetCategory`);
+  }
+  editCategory(data:any,id:number): Observable<any> {
+    return this.http.put<any>(`${this.url}/EditCategory/${id}`,data);
+  }
+  addCategory(data:any): Observable<any> {
+    return this.http.post<any>(`${this.url}/AddCategory/`,data);
+  }
+  deleteCategory(id:string): Observable<any> {
+    return this.http.delete<any>(`${this.url}/DeleteCategory/${id}`);
+  }
 
   //email change
   sendEmailChangeCodeToEmail(data:any,id:string): Observable<any> {
@@ -49,15 +62,9 @@ export class DataService {
     return this.http.post<any>(`${this.url}/changeemail/${id}`,data);
   }
 
-
-
-
-
-
-
-
-
-  getDoctorsByCategory(category:string): Observable<any> {
+  getDoctorsByCategory(category:string): Observable<any> {  
+    console.log(category);
+      
     return this.http.get<any>(`${this.url}/GetByCategory/${category}`);
   }
   getByRoles(role:string): Observable<any> {
@@ -82,8 +89,6 @@ export class DataService {
   getDoctor(id:string): Observable<any> {
     return this.http.get<any>(`${this.url}/doctor/${id}`);
   }
-
-
 
   // Method to perform logout
   logout() {

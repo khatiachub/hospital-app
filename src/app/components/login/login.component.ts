@@ -29,8 +29,9 @@ export class LoginComponent {
           console.log(response.id);
           localStorage.setItem('token', response.token);
           localStorage.setItem('id', response.id);
-          this.router.navigate(['home']);
-          window.location.reload();
+          this.router.navigate(['home']).then(() => {
+            window.location.reload();
+          });
         },
         error: (error) => {
           console.error('POST request failed:', error);

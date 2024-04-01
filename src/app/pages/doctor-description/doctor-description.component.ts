@@ -14,14 +14,16 @@ export class DoctorDescriptionComponent implements OnInit {
   constructor(private dataService: DataService,private router: Router) {this.currentPath = this.router.url}
 
   public doctor!:User;
-
+  public url='http://localhost:5134/Upload/Files/'
   ngOnInit(): void {
     const parts = this.currentPath.split('/');
     const id = parts[parts.length - 1];    
-    console.log(id);
+    // console.log(id);
 
     this.dataService.getDoctor(id).subscribe((data) => {
       console.log(data);
+      console.log(data?.profileImage);
+      
       this.doctor=data
     });
   }

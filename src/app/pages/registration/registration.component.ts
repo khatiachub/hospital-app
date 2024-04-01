@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../core/data-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { categories } from '../../shared/categories.data';
-
+import { User } from '../../shared/User.interface';
 
 @Component({
   selector: 'app-registration',
@@ -25,9 +24,13 @@ export class RegistrationComponent implements OnInit {
 
 
   type:any;
+  categories:any;
   ngOnInit(): void {
-    // this.type = history.state.type;
-  }
+    this.dataService.getCategories().subscribe((response) => {
+      console.log('category get successfully');
+      this.categories=response;
+    }); 
+ }
   constructor(private dataService:DataService) {
     this.type = history.state.type; 
        
@@ -48,29 +51,59 @@ export class RegistrationComponent implements OnInit {
   }
   
 
-
   onFileSelected(event:any,controlName:string): void {
     const file = event.target.files[0];
-    this.encodeFileToBase64(file,controlName);
-  }
 
-  encodeFileToBase64(file: File,controlName:string): void {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64String: string = reader.result!.toString().split(',')[1];
-      this.form.get(controlName)!.setValue(base64String);
-    };
-    reader.readAsDataURL(file);
+    this.form.get(controlName)?.setValue(file);
+
   }
 
 
   registration():void{ 
-    const data = this.form.value;
-    console.log(data);
-     
+    const data=this.form.value;    
+    const formData = new FormData();
+    Object.keys(data).forEach(key => {
+      const value = this.form.get(key)?.value; 
+      if (value !== null && value !== undefined) {
+        formData.append(key.toString(), value.toString());        
+      }
+    });
+
+    
+    const cvFile = this.form.get('Cv')?.value; 
+    if (cvFile) {
+      formData.append('Cv',cvFile);
+    }
+
+    const name = this.form.get('Name')?.value; 
+    if (name) {
+      formData.append('name', name);
+    }
+    const lastname = this.form.get('LastName')?.value; 
+    if (lastname) {
+      formData.append('lastName', lastname);
+    }
+    const email = this.form.get('Email')?.value; 
+    if (email) {
+      formData.append('email', email);
+    }
+    const privnumb = this.form.get('PrivateNumber')?.value; 
+    if (privnumb) {
+      formData.append('PrivateNumber', privnumb.toString());
+    }
+    const img = this.form.get('ProfileImage')?.value; 
+    if (img) {
+      formData.append('ProfileImage', img);
+    }
+    
+    const pass = this.form.get('Password')?.value; 
+    if (pass) {
+      formData.append('Password', pass);
+    }
+
     if (this.form.valid) {
       if(this.type==='ექიმი'){
-        this.dataService.registerDoctorAndAdmin(data).subscribe({
+        this.dataService.registerDoctorAndAdmin(formData).subscribe({
           next: (response) => {
             console.log('account created successfully:', response);
             this.success=true;
@@ -80,11 +113,13 @@ export class RegistrationComponent implements OnInit {
           },
           error: (error) => {
             console.error('POST request failed:', error);
+            // console.log(formData);
+            
           },
         });
-      }else{
-        
-        this.dataService.register(data).subscribe({
+      }
+      else{
+        this.dataService.register(formData).subscribe({
           next: (response) => {
             console.log('POST request successful:', response);
             this.success=true;
@@ -97,13 +132,11 @@ export class RegistrationComponent implements OnInit {
           },
         });
       }
-      
     } else {
       this.form.markAllAsTouched();
     }
   } 
   
-  categories=categories;
 }
 
 

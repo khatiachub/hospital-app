@@ -1,4 +1,3 @@
-<app-category></app-category>
 <div *ngFor="let category of allDoctors">
     <div class="category-card">
         <div class="views-wrap">
@@ -12,7 +11,7 @@
         </div>
         <div class="details-wraper" (click)="clickOnCard(category.id)">
             <div>
-                <img src="../../../assets/images/Ellipse 5.png"/>
+                <img class="profileimage" [src]="url+category.profileImage"/>
             </div>
             <h2 class="name-title">{{category!.name}} {{category!.lastName}}</h2>
             <p class="category-title">{{category!.category}}</p>

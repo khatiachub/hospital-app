@@ -1,11 +1,12 @@
 <div class="doctor-details-card">
     <div class="wraper">
         <div>
-            <img src="../../../assets/images/Ellipse 5.png"/>
+        <img class="profileimage" [src]="url+doctor?.profileImage" alt="Profile Image">
+
         </div>
         <div class="details-box">
-            <h2 class="name-title">{{doctor.name}} {{doctor.lastName}}</h2>
-            <p class="category-title">{{doctor.category}}</p>
+            <h2 class="name-title">{{doctor?.name}} {{doctor?.lastName}}</h2>
+            <p class="category-title">{{doctor?.category}}</p>
             <div class="stars">
                 <img src="../../../assets/images/material-symbols_star-rounded.png"/>
                 <img src="../../../assets/images/material-symbols_star-rounded.png"/>

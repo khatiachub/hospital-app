@@ -1,34 +1,52 @@
 <div class="container">
-    <div class="wraper">
-        <div class="edit-box">
+    <div [ngStyle]="{ 'flex-direction': Role === 'ექიმი' ? 'row' : 'column', 'max-width': Role === 'ექიმი' ? '750px' : '350px' }" class="wraper">
+        <div [ngStyle]="{ 'height': Role === 'ექიმი' ? '250px' : '50px' }" class="image-wraper">
+        <img *ngIf="Role === 'ექიმი'" class="profileimage" [src]="url+user.profileImage"/>
+       <div  class="name-wraper">
+        <ng-template  [ngIf]="Role === 'ექიმი'" [ngIfElse]="editname">
+            <h2 class="name">{{ user?.name }}</h2>
+        </ng-template>
+        <ng-template [ngIf]="Role==='ექიმი'" [ngIfElse]="editlastname">
+            <h2  class="name">{{user?.lastName}}</h2>      
+        </ng-template>
+       </div>
+        <ng-template #editname class="edit-box">
             <img (click)="openWindow('name',user.name)" src="../../../assets/images/edit-svgrepo-com 6.png"/>
-            <h2 class="title">{{user?.name}}</h2>      
-        </div>
-        <div class="edit-box">
-            <img (click)="openWindow('lastName',user.lastName)" src="../../../assets/images/edit-svgrepo-com 6.png"/>
+            <h2 class="title">{{user?.name}}</h2>              
+        </ng-template>
+        
+        <ng-template #editlastname class="edit-box" >
+            <img style="margin-left: 20px;" (click)="openWindow('lastName',user.lastName)" src="../../../assets/images/edit-svgrepo-com 6.png"/>
             <h2 class="title">{{user?.lastName}}</h2>      
+        </ng-template>
+        <p>{{Role}}</p>
+        <p class="category-title">{{user?.category}}</p>
+       </div>
+        
+        
+        <div class="edit-wraper">
+            <div class="edit-box">
+                <img (click)="openWindow('privateNumber',user.privateNumber)" src="../../../assets/images/edit-svgrepo-com 6.png"/>
+                <div class="text-box">
+                    <p class="title">პირადი ნომერი :</p>
+                    <p class="edit-text">{{user?.privateNumber}}</p>
+                </div>        
+            </div>
+            <div class="edit-box">
+                <img (click)="openWindow('email',user.email)" src="../../../assets/images/edit-svgrepo-com 6.png"/>
+                <div class="text-box">
+                    <p class="title">იმეილი :</p>
+                    <p class="edit-text">{{user?.email}}</p>
+                </div>        
+            </div>
+            <div class="edit-box">
+                <img (click)="openWindowForPassword()" src="../../../assets/images/edit-svgrepo-com 6.png"/>
+                <!-- <div class="text-box"> -->
+                    <p class="title">პაროლის შეცვლა</p>
+                <!-- </div>         -->
+            </div>
         </div>
-        <div class="edit-box">
-            <img (click)="openWindow('privateNumber',user.privateNumber)" src="../../../assets/images/edit-svgrepo-com 6.png"/>
-            <div class="text-box">
-                <p class="title">პირადი ნომერი :</p>
-                <p class="edit-text">{{user?.privateNumber}}</p>
-            </div>        
-        </div>
-        <div class="edit-box">
-            <img (click)="openWindow('email',user.email)" src="../../../assets/images/edit-svgrepo-com 6.png"/>
-            <div class="text-box">
-                <p class="title">იმეილი :</p>
-                <p class="edit-text">{{user?.email}}</p>
-            </div>        
-        </div>
-        <div class="edit-box">
-            <img (click)="openWindowForPassword()" src="../../../assets/images/edit-svgrepo-com 6.png"/>
-            <!-- <div class="text-box"> -->
-                <p class="title">პაროლის შეცვლა :</p>
-            <!-- </div>         -->
-        </div>
-        <div class="edit-box">
+        <div class="edit-box" style="margin-top: 20px;">
             <img  src="../../../assets/images/edit-svgrepo-com 6.png"/>
             <!-- <div class="text-box"> -->
                 <p class="title">ჯავშანი :</p>
@@ -37,8 +55,10 @@
     </div>
     <div *ngIf="OpenWindow||OpenWindowForPassword" class="overlay">
         <input *ngIf="OpenWindow" class="input" type="text" [(ngModel)]="inputValue" (change)="handleChange($event,property)">
-        <input *ngIf="OpenWindowForPassword" class="input" type="text" name="currentPassword" [(ngModel)]="currentPassword" (input)="handlePasswordChange($event)">
-        <input *ngIf="OpenWindowForPassword" class="input" type="text" name="newPassword" [(ngModel)]="newPassword" (input)="handlePasswordChange($event)">
+        <label *ngIf="OpenWindowForPassword">ამჟამინდელი პაროლი</label>
+        <input *ngIf="OpenWindowForPassword" class="input" type="password" name="currentPassword" [(ngModel)]="currentPassword" (input)="handlePasswordChange($event)">
+        <label *ngIf="OpenWindowForPassword">ახალი პაროლი</label>
+        <input  *ngIf="OpenWindowForPassword" class="input" type="password" name="newPassword" [(ngModel)]="newPassword" (input)="handlePasswordChange($event)">
         <button *ngIf="OpenWindowForPassword" class="button" (click)="changePassword()">შეცვლა</button>
         <button *ngIf="OpenWindow&&property!=='email'" class="button" (click)="updateUser()">შეცვლა</button>
         
@@ -46,8 +66,6 @@
         <button *ngIf="EnterCode&&!EnterNewEmail&&!EnterNewEmailCode" class="button" (click)="enterCode()">შეიყვანე კოდი</button>
         <button *ngIf="EnterNewEmail&&!EnterNewEmailCode" class="button" (click)="enterNewEmail()">შიყვანე ახალი მეილი</button>
         <button *ngIf="EnterNewEmailCode" class="button" (click)="changeEmail()">შიყვანე კოდი ახალი იმეილის დასადასტურებლად</button>
-
-
     </div>
     <div *ngIf="OpenWindow||OpenWindowForPassword" (click)="removeWindow()" class="overlay-wrapper"></div>
 </div>

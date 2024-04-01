@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit{
   constructor(private dataService: DataService,private router:Router) {}
 
-
+  public url='http://localhost:5134/Upload/Files/'
   public allDoctors:any;
 
 ngOnInit(): void {

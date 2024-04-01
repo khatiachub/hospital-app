@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { categories } from '../../shared/categories.data';
 import { DataService } from '../../core/data-service.service';
 import { Router } from '@angular/router';
 
@@ -9,12 +8,18 @@ import { Router } from '@angular/router';
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
 })
-export class CategoriesComponent {
-  constructor(private userService:DataService,private router:Router) {}
+export class CategoriesComponent implements OnInit {
+  constructor(private router:Router,private readonly dataService:DataService) {}
+  public cat:any;
+ngOnInit(): void {
+  this.dataService.getCategories().subscribe((response) => {
+    this.cat=response;
+  });
+}
 
-  public cat=categories;
   getCategory(category:string):void{
-    this.router.navigate([`/doctors/${category}`],{ queryParams: { category: category } }).then(() => {
+    const encodedCategory = encodeURIComponent(category);
+    this.router.navigate(['/doctors',encodedCategory],{ state: { category:category } }).then(() => {
       window.location.reload();
     });
   }

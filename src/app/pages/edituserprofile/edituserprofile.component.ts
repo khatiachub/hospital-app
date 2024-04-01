@@ -22,13 +22,16 @@ export class EdituserprofileComponent implements OnInit {
   EnterCode=false;
   EnterNewEmail=false;
   EnterNewEmailCode=false;
+  public url='http://localhost:5134/Upload/Files/'
+  Role=history.state.type;
+
   ngOnInit(): void {
     this.id = history.state.id;
+    console.log(this.Role);
     
     this.dataService.getUser(this.id).subscribe({
       next: (response) => {
         this.user=response;
-        console.log(this.user.name);
       },
       error: (error) => {
         console.error('GET request failed:', error);
@@ -67,6 +70,7 @@ export class EdituserprofileComponent implements OnInit {
   removeWindow():void{
     this.OpenWindow=false;
     this.OpenWindowForPassword=false;
+    this.property=''
   }
  
 
