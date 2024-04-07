@@ -24,21 +24,28 @@ export class EdituserprofileComponent implements OnInit {
   EnterNewEmailCode=false;
   public url='http://localhost:5134/Upload/Files/'
   Role=history.state.type;
+  UserRole!:string;
 
   ngOnInit(): void {
-    this.id = history.state.id;
-    console.log(this.Role);
+    this.id = history.state.id;    
+    if(this.id){
+      this.dataService.getUser(this.id).subscribe({
+        next: (response) => {
+          this.user=response;
+          this.UserRole=response.role;
+        },
+        error: (error) => {
+        },
+      })
+    }else{
+      return
+    }
     
-    this.dataService.getUser(this.id).subscribe({
-      next: (response) => {
-        this.user=response;
-      },
-      error: (error) => {
-        console.error('GET request failed:', error);
-      },
-    })
   }
   
+  logOut():void{
+    this.dataService.logout();
+  }
   openWindow(property: string, value: any):void{
     this.OpenWindow=true;
     this.inputValue=value;
@@ -160,6 +167,20 @@ export class EdituserprofileComponent implements OnInit {
       error: (error) => {
         console.error('sending code to failed:', error);
         console.log(this.codeData);
+      },
+    })
+  }
+
+  public turnOn:boolean=false;
+
+  toggleTwoFactored():void{
+    this.turnOn=!this.turnOn;
+    this.dataService.turnOnTwoStep(this.id).subscribe({
+      next:(response)=>{
+        console.log(response);
+      },
+      error: (error) => {
+        console.error('failed to turn on 2-factored', error);
       },
     })
   }

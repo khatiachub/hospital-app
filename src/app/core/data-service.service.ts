@@ -1,7 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 export class DataService {
 
-  constructor(private http: HttpClient,private router:Router) { }
+  constructor(private http: HttpClient,private router:Router) {}
   private url="http://localhost:5134/api"
  
-  register(data: any): Observable<any> {
+  
+  registration(data: any): Observable<any> {
     return this.http.post(`${this.url}/register`, data,
     );
   }
@@ -62,10 +64,11 @@ export class DataService {
     return this.http.post<any>(`${this.url}/changeemail/${id}`,data);
   }
 
-  getDoctorsByCategory(category:string): Observable<any> {  
-    console.log(category);
-      
+  getDoctorsByCategory(category:string): Observable<any> {        
     return this.http.get<any>(`${this.url}/GetByCategory/${category}`);
+  }
+  getDoctorsByName(name:string,lastname:string): Observable<any> {        
+    return this.http.get<any>(`${this.url}/GetByName/${name}/${lastname}`);
   }
   getByRoles(role:string): Observable<any> {
     return this.http.get<any>(`${this.url}/GetByRoles/${role}`);
@@ -98,14 +101,40 @@ export class DataService {
       window.location.reload();
     });
   }
-  isAuthenticated(): boolean {
-    if(typeof localStorage !== 'undefined' &&localStorage.getItem('token')){
-      return true
-    }
-    return false; 
+  
+  private doctorsDataSubject = new BehaviorSubject<any[]>([]);
+  doctorsData$: Observable<any[]> = this.doctorsDataSubject.asObservable();
+  setDoctorsData(data: any[]): void {
+    this.doctorsDataSubject.next(data);
+  }
+
+  turnOnTwoStep(id:string|null): Observable<any> {
+    return this.http.get<any>(`${this.url}/2-step-authorization/${id}`);
+  }
+
+  enterCode(data:any): Observable<any> {
+    return this.http.post<any>(`${this.url}/Auth-Code`,data);
+  }
+
+  //recover password
+  sendEmail(data:any): Observable<any> {
+    return this.http.post<any>(`${this.url}/recoverpassword`,data);
+  }
+  sendResetCode(data:any): Observable<any> {
+    return this.http.post<any>(`${this.url}/enter-password-recovery-code`,data);
+  }
+  enterNewPassword(data:any): Observable<any> {
+    return this.http.post<any>(`${this.url}/enter-new-password`,data);
+  }
+  verifyEmail(token:string,email:string): Observable<any> {
+    return this.http.get<any>(`${this.url}/VerifyEmail/${token}/${email}`);
+  }
+  //download files
+  downloadFile(filename: string): Observable<Blob> {
+    const url = `${this.url}/DownloadFile/${filename}`;
+    return this.http.get(url, {
+      responseType: 'blob' 
+    });
   }
 }
 
-
-
-  

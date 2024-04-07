@@ -1,7 +1,8 @@
 <app-header ></app-header>
-<div *ngIf="open" (click)="removeLoginForm()" class="overlay">
+<div *ngIf="open">
     <app-login *ngIf="open"></app-login>
 </div>
+<div *ngIf="open" (click)="removeLoginForm()" class="overlay"></div>
 <div class="wraper">
     <div *ngIf="showCategories" class="categories-wraper">
         <app-categories *ngIf="showCategories"></app-categories>

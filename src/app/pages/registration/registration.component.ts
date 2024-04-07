@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../core/data-service.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '../../shared/User.interface';
+
 
 @Component({
   selector: 'app-registration',
@@ -17,9 +16,9 @@ export class RegistrationComponent implements OnInit {
     PrivateNumber: new FormControl('', Validators.required),
     Password: new FormControl('', Validators.required),
     Role: new FormControl('', Validators.required),
-    Cv: new FormControl(''),
-    ProfileImage: new FormControl(''),
-    Category: new FormControl(''),
+    Cv: new FormControl('',Validators.required),
+    ProfileImage: new FormControl('',Validators.required),
+    Category: new FormControl('',Validators.required),
   });
 
 
@@ -119,7 +118,7 @@ export class RegistrationComponent implements OnInit {
         });
       }
       else{
-        this.dataService.register(formData).subscribe({
+        this.dataService.registration(formData).subscribe({
           next: (response) => {
             console.log('POST request successful:', response);
             this.success=true;

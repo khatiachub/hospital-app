@@ -1,4 +1,4 @@
-<div *ngFor="let category of categoryResponse">
+<div *ngFor="let category of categoryResponse" class="wraper">
     <div class="category-card">
         <div class="views-wrap">
             <div class="views">
@@ -13,8 +13,8 @@
             <div>
                 <img class="profileimage" [src]="url+category.profileImage"/>
             </div>
-            <h2 class="name-title">{{category!.name}} {{category!.lastName}}</h2>
-            <p class="category-title">{{category!.category}}</p>
+            <h2 i18n class="name-title">{{category!.name}} {{category!.lastName}}</h2>
+            <p i18n class="category-title">{{category!.category}}</p>
             <div class="stars">
                 <img src="../../../assets/images/material-symbols_star-rounded.png"/>
                 <img src="../../../assets/images/material-symbols_star-rounded.png"/>
@@ -22,7 +22,7 @@
                 <img src="../../../assets/images/material-symbols_star-rounded.png"/>
             </div>
             <div class="button">
-                <p>მიღებაზე ჩაწერა</p>
+                <p i18n>მიღებაზე ჩაწერა</p>
                 <div style="margin-top: 3px;">
                     <img src="../../../assets/images/material-symbols_arrow-back-ios-rounded.png"/>
                 </div>

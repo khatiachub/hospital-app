@@ -1,12 +1,12 @@
 <div class="doctor-details-card">
     <div class="wraper">
         <div>
-        <img class="profileimage" [src]="url+doctor?.profileImage" alt="Profile Image">
+        <img class="profileimage" [src]="url+doctor.profileImage" alt="Profile Image">
 
         </div>
         <div class="details-box">
-            <h2 class="name-title">{{doctor?.name}} {{doctor?.lastName}}</h2>
-            <p class="category-title">{{doctor?.category}}</p>
+            <h2 i18n class="name-title">{{doctor.name}} {{doctor.lastName}}</h2>
+            <p i18n class="category-title">{{doctor.category}}</p>
             <div class="stars">
                 <img src="../../../assets/images/material-symbols_star-rounded.png"/>
                 <img src="../../../assets/images/material-symbols_star-rounded.png"/>
@@ -16,8 +16,8 @@
         </div>
     </div>
     <div class="description-box">
-        <p class="description-text"><span class="highlight">2017 - დღემდე</span>, ჩვენი კლინიკის გენერალური დირექტორი</p>
-        <p class="description-text">2002 - დღემდე, ჩვენი კომპიუტერული ტომოგრაფიის განყოფილების ხელმძღვანელი</p>
-        <p class="description-text">1995 - დღემდე, კარდიოლოგი / არითმოლოგი</p>
+        <p i18n class="description-text"><span class="highlight">2017 - დღემდე</span>, ჩვენი კლინიკის გენერალური დირექტორი</p>
+        <p i18n class="description-text">2002 - დღემდე, ჩვენი კომპიუტერული ტომოგრაფიის განყოფილების ხელმძღვანელი</p>
+        <p i18n class="description-text">1995 - დღემდე, კარდიოლოგი / არითმოლოგი</p>
     </div>
 </div>

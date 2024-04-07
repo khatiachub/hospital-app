@@ -4,6 +4,14 @@
   "newProjectRoot": "projects",
   "projects": {
     "hospital-app": {
+      "i18n": {
+        "locales": {
+            "ka": {
+                "translation": "src/assets/i18n/ka.json",
+                "baseHref": "/ka/"
+            }
+        }
+    },
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -24,6 +32,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            
             "outputPath": "dist/hospital-app",
             "index": "src/index.html",
             "browser": "src/main.ts",

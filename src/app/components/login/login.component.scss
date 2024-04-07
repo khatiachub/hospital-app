@@ -11,7 +11,8 @@
     top:50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    z-index: 100;
+    z-index: 200;
+
 }
 .input{
     max-width: 377px;
@@ -21,6 +22,11 @@
     border-radius: 50px;
 }
 
+.errormessage{
+    font-size: 25px;
+    color: red;
+    text-align: center;
+}
 .form{
     max-width: 377px;
     width: 100%;
@@ -50,3 +56,11 @@
     right: 5px;
     bottom: 50px;
 }
+.success-message{
+    color:green;
+    font-size: 25px;
+}
+.disabled-button {
+    opacity: 0.5; 
+  }
+  

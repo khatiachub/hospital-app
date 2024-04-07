@@ -84,6 +84,12 @@
     justify-content: space-between;
     align-items: center;
 }
+.profileimage{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
 .image-wraper{
     width: 40px;
     height: 40px;
@@ -127,16 +133,6 @@
     font-size: 18px;
     margin-left:10px;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 @media screen and (max-width: 1620px) {

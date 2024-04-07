@@ -1,32 +1,34 @@
 <div class="header-wraper">
     <div class="logo-div">
         <img class="logo" src="../../../assets/images/logo 1.png"/>
-        <h3 class="clinic-text">კლინიკა</h3>
+        <h3 i18n class="clinic-text">კლინიკა</h3>
     </div>
     <nav class="navigation">
         <div class="nav-border-div">
-        <a class="nav-link" routerLink="/home">ექიმები</a>
-        <a class="nav-link" routerLink="/#">კლინიკები</a>
-        <a class="nav-link" routerLink="/#">ანოტაციები</a>
-        <a class="nav-link" routerLink="/#">აქციები </a>
-        <a class="nav-link" routerLink="/#">სერვისები</a>
-        <a class="nav-link" routerLink="/#">მედიკამენტები</a>
-        <a class="nav-link" routerLink="/#">კონტაქტი</a> 
+        <a i18n="@@home" class="nav-link" routerLink="/home">ექიმები</a>
+        <a i18n="@@clinics" class="nav-link" routerLink="/#">კლინიკები</a>
+        <a i18n class="nav-link" routerLink="/#">ანოტაციები</a>
+        <a i18n class="nav-link" routerLink="/#">აქციები </a>
+        <a i18n class="nav-link" routerLink="/#">სერვისები</a>
+        <a i18n class="nav-link" routerLink="/#">მედიკამენტები</a>
+        <a i18n class="nav-link" routerLink="/#">კონტაქტი</a> 
         </div>
-        <div (click)="goToProfile(user.id)" class="nav-auth-button" *ngIf="user&&!admin;">
-            <p class="nav-link-login">{{user.name}} {{user.lastName}}</p>                                        
+        <div [ngStyle]="{ 'justify-content': user.profileImage ? 'space-between' : 'center', 'padding-left': user.profileImage ? '0px' : '10px' }" (click)="goToProfile(user.id)" class="nav-auth-button" *ngIf="user && !admin;">
+            <img *ngIf="user.profileImage" class="profileimage" [src]="url+user.profileImage"/>
+            <p i18n class="nav-link-login">{{user.name}} {{user.lastName}}</p>                                        
         </div>
         <div (click)="goToAdminPanel(user.id)" class="nav-auth-button" *ngIf="admin">
-            <p class="nav-link-login">{{admin}}</p>                                        
+            <p i18n class="nav-link-login">{{admin}}</p>                                        
         </div>
         <div *ngIf="!user&&!admin">
             <button  class="nav-auth-button">
-                <p class="nav-link-login" (click)="Authorize()">ავტორიზაცია</p>                                        
-                <a class="nav-link" routerLink="/registration">/ რეგისტრაცია</a>
+                <p i18n class="nav-link-login" (click)="Authorize()">ავტორიზაცია</p>                                        
+                <a i18n class="nav-link" routerLink="/registration">/ რეგისტრაცია</a>
             </button>
         </div>
-
-        <button class="nav-lang-button">ENG</button>                                                                         
+        <button class="nav-lang-button" (click)="switchLanguage('en')">EN</button>
+        <button class="nav-lang-button" (click)="switchLanguage('ka')">KA</button>
+                                                                       
     </nav>
 </div>
 <div class="container">
@@ -42,13 +44,13 @@
                 <div class="image-wraper">
                     <img src="../../../assets/images/location-svgrepo-com (1) 2.png"/>
                 </div>
-                <span class="span-text">იაკობ ნიკოლაძე №10</span>
+                <span i18n class="span-text">იაკობ ნიკოლაძე №10</span>
             </div>
         </div>
         
-        <input class="search-input" placeholder="მოძებნე ექიმი სახელით"/>
-        <input class="search-input" placeholder="მოძებნე სპეციალობით"/>
-        <div class="image-wraper img-div">
+        <input i18n-placeholder [(ngModel)]="names" name="name" (change)="handleChange($event)" class="search-input" placeholder="მოძებნე ექიმი სახელით"/>
+        <input i18n-placeholder [(ngModel)]="SearchByCategory" name="category" (change)="handleChange($event)" class="search-input" placeholder="მოძებნე სპეციალობით"/>
+        <div (click)="handleClick()" class="image-wraper img-div">
             <img src="../../../assets/images/ri_search-line.png"/>
         </div>
     </div>

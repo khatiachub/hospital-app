@@ -1,9 +1,36 @@
 <div  class="container">
-    <form (click)="handleButtonClick($event)" class="form" [formGroup]="form" (ngSubmit)="Login()">
-        <label class="title">ავტორიზაცია</label>
-        <input formControlName="Email" class="input" placeholder="ელ. ფოსტა/ ტელეფონის ნომერი"/>
-        <input formControlName="Password" class="input" placeholder="პაროლი"/>
-        <p class="text">პაროლის აღდგენა</p>
-        <button type="submit" class="button">შესვლა</button>
+    <form *ngIf="LoginEnabled&&!Code&&!SendEmail&&!EnterRecoverCode&&!EnableNewPassword&&!RecoverySuccess"  class="form" [formGroup]="form" (ngSubmit)="Login()">
+        <label i18n class="title">ავტორიზაცია</label>
+        <input i18n-placeholder formControlName="Email" class="input" placeholder="ელ. ფოსტა/ ტელეფონის ნომერი"/>
+        <input i18n-placeholder formControlName="Password" class="input" placeholder="პაროლი"/>
+        <p i18n (click)="redirectToPasswordReset()" class="text">პაროლის აღდგენა</p>
+        <button i18n type="submit" class="button">შესვლა</button>
     </form>
+    <div *ngIf="Code&&!SendEmail&&!EnterRecoverCode&&!EnableNewPassword&&!RecoverySuccess" class="form">
+        <input i18n-placeholder class="input" [(ngModel)]="enterCode" (change)="handleChange($event)" placeholder="შეიყვანეთ კოდი"/>
+        <p i18n class="errormessage" *ngIf="errorCode">კოდი არასწორია</p>
+        <button i18n (click)="sendCode()" class="button">შეიყვანეთ კოდი</button>
+        <button i18n  (click)="sendCodeAgain()" [class.disabled-button]="!enableGenerateButton" [disabled]="!enableGenerateButton" class="button">გაგზავნე კოდი ხელახლა</button>
+        <p i18n *ngIf="remainingTime!==0 && enabled; else expired">გაგზავნე კოდი {{ remainingTime }} წამში</p>
+        <ng-template #expired>{{Time}}</ng-template>
+    </div>
+
+    <div class="form" *ngIf="!Code&&SendEmail&&!RecoverySuccess">
+        <input i18n-placeholder class="input" [(ngModel)]="enterEmail.enterEmail" name="enterEmail" placeholder="შეიყვანეთ მეილი" (change)="handleInputChange($event)"/>
+        <button i18n class="button" (click)="sendEmail()">გაგზავნა</button>
+    </div>
+    <div class="form" *ngIf="!Code&&!SendEmail&&EnterRecoverCode&&!RecoverySuccess">
+        <input i18n-placeholder class="input" [(ngModel)]="enterEmail.EnterRecoverCode" placeholder="შეიყვანეთ კოდი" name="enterRecoverCode" (change)="handleInputChange($event)"/>
+        <p i18n class="errormessage" *ngIf="errorCode">კოდი არასწორია</p>
+        <button  i18n (click)="sendResetCodeAgain()" [class.disabled-button]="!enableGenerateButton" [disabled]="!enableGenerateButton" class="button">გაგზავნე კოდი ხელახლა</button>
+        <p i18n *ngIf="remainingTime!==0 && enabled; else expired">გაგზავნე კოდი {{ remainingTime }} წამში</p>
+        <ng-template #expired>{{Time}}</ng-template>
+        <button i18n class="button" (click)="sendResetCode()">გაგზავნა</button>
+    </div>
+    <div class="form" *ngIf="!Code&&!SendEmail&&!EnterRecoverCode&&EnableNewPassword&&!RecoverySuccess">
+        <input i18n-placeholder class="input" [(ngModel)]="enterEmail.newPassword" placeholder="შეიყვანეთ პაროლი" name="newPassword" (change)="handleInputChange($event)"/>
+        <input i18n-placeholder class="input" [(ngModel)]="enterEmail.confirmPassword" placeholder="გაიმეორეთ პაროლი" name="confirmPassword" (change)="handleInputChange($event)"/>
+        <button i18n class="button" (click)="resetPassword()">გაგზავნა</button>
+    </div>
+    <p i18n class="success-message" *ngIf="!Code&&!SendEmail&&!EnterRecoverCode&&!EnableNewPassword&&RecoverySuccess">პაროლის აღდგენა წარმატებით განხორციელდა</p>
 </div>

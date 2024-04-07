@@ -24,16 +24,18 @@ export class UsersGridComponent implements OnInit {
   CategoryId!:number;
   inputValue!:string;
   categoryId!:number;
+  public isCategoryUsed!:string
+
   ngOnInit(): void {
     if(history.state.params==='რეგისტრაცია'){
       this.role='USER'
-    }else if(history.state.params==='ექიმები'){
+    }else if(history.state.params==='ექიმები'||history.state.params==='კატეგორიები'){
       this.role='DOCTOR'
     }
     
     this.dataService.getByRoles(this.role).subscribe({
       next: (response) => {
-        this.users=response;
+        this.users=response;        
       },
       error: (error) => {
         console.error('GET request failed:', error);
@@ -53,6 +55,7 @@ export class UsersGridComponent implements OnInit {
     this.isOpen=false;
     this.AddCategory=false;
     this.EditCategory=false;
+    this.isCategoryUsed='';
   }
   navigateToRegister(type:string):void{
     this.router.navigate(['/registration'],{ state: { type: type } });
@@ -110,11 +113,17 @@ export class UsersGridComponent implements OnInit {
     
   }
 
-  deleteCategory(id:string):void{
-    this.dataService.deleteCategory(id).subscribe(() => {
-      console.log('category deleted successfully');
-      window.location.reload();
-    });
+  deleteCategory(id:string,category:string):void{
+    const filteredCategory=this.users.filter((user)=>(user.category===category))    
+    if(filteredCategory.length>0){
+      this.isOpen=true;
+      this.isCategoryUsed='კატეგორია გამოყენებულია'
+    }else{
+      this.dataService.deleteCategory(id).subscribe(() => {
+        console.log('category deleted successfully');
+        window.location.reload();
+      });
+    }
   }
 
   showEditCategory(category:string,id:number):void{
@@ -132,4 +141,19 @@ export class UsersGridComponent implements OnInit {
       window.location.reload();
     });
   }
+
+  downloadFile(cv: string): void {
+    this.dataService.downloadFile(cv).subscribe({
+      next: (response: Blob) => {
+        const blob = new Blob([response], { type: 'application/pdf' }); 
+        const url = window.URL.createObjectURL(blob); 
+        window.open(url, '_blank');
+      },
+      error: (error) => {
+        console.error('Download failed:', error);                
+      },
+    });
+  }
+  
+  
 }

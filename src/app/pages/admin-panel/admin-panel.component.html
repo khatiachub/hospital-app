@@ -1,12 +1,15 @@
 <div class="wraper">
     <div class="admin-menu">
         <div (click)="goToGrid('რეგისტრაცია')">
-            <a >რეგისტრაცია</a> 
+            <a i18n >რეგისტრაცია</a> 
         </div>
-        <div (click)="goToGrid('კატეგორიები')">კატეგორიები</div>
-        <div (click)="goToGrid('ექიმები')">ექიმები</div>
+        <div i18n (click)="goToGrid('კატეგორიები')">კატეგორიები</div>
+        <div i18n (click)="goToGrid('ექიმები')">ექიმები</div>
     </div>
-    <button class="button" (click)="logOut()">სისტემიდან გასვლა</button>
-    <!-- <button class="button">მომხმარებელი</button>
-    <button class="button">ადმინისტრატორი</button> -->
+    <button i18n class="button" (click)="logOut()">სისტემიდან გასვლა</button>
+    <div class="button auth-button">
+        <p i18n>ორ-ნაბიჯიანი ავტორიზაცია</p>
+        <i *ngIf="turnOn" (click)="toggleTwoFactored()" class="fa-solid fa-toggle-on"></i>
+        <i *ngIf="!turnOn" (click)="toggleTwoFactored()" class="fa-solid fa-toggle-off"></i>
+    </div>
 </div>

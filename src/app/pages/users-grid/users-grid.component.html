@@ -4,21 +4,21 @@
     </caption>
     <thead>
       <tr>
-        <th *ngIf="params==='რეგისტრაცია'||params==='ექიმები'" scope="col">სახელი</th>
-        <th *ngIf="params==='რეგისტრაცია'">იმეილი</th>
-        <th *ngIf="params==='ექიმები'" scope="col">ფოტოსურათი</th>
-        <th *ngIf="params==='ექიმები'" scope="col">კატეგორია</th>
-        <th *ngIf="params==='კატეგორიები'" scope="col">კატეგორიები</th>
+        <th i18n *ngIf="params==='რეგისტრაცია'||params==='ექიმები'" scope="col">სახელი</th>
+        <th i18n *ngIf="params==='რეგისტრაცია'">იმეილი</th>
+        <th i18n *ngIf="params==='ექიმები'" scope="col">ფოტოსურათი</th>
+        <th i18n *ngIf="params==='ექიმები'" scope="col">კატეგორია</th>
+        <th i18n *ngIf="params==='კატეგორიები'" scope="col">კატეგორიები</th>
         <th></th>
       </tr>
     </thead>
 
     <tbody  *ngIf="params==='რეგისტრაცია'||params==='ექიმები'" >
       <tr *ngFor="let user of users">
-        <td *ngIf="params==='რეგისტრაცია'||params==='ექიმები'" scope="row">{{user.name}} {{user.lastName}}</td>
+        <td i18n *ngIf="params==='რეგისტრაცია'||params==='ექიმები'" scope="row">{{user.name}} {{user.lastName}}</td>
         <td *ngIf="params==='რეგისტრაცია'">{{user.email}}</td>
-        <td  *ngIf="params==='ექიმები'"><img class="profileimage" [src]="url+user.profileImage"/></td>
-        <td *ngIf="params==='ექიმები'">{{user.category}}</td>
+        <td *ngIf="params==='ექიმები'"><img class="profileimage" [src]="url+user.profileImage"/></td>
+        <td i18n *ngIf="params==='ექიმები'">{{user.category}}</td>
         <td class="buttons">
           <button *ngIf="params==='კატეგორიები'" (click)="showDeleteWindow(user.id)" class="delete-button button">
             <img src="../../../assets/images/delete-svgrepo-com 10.png"/>
@@ -29,7 +29,7 @@
             <button (click)="editUser(user.id)" class="edit-button button">
               <img src="../../../assets/images/edit-svgrepo-com 8.png"/>
             </button>
-            <button *ngIf="params==='ექიმები'" class="download-button button">
+            <button (click)="downloadFile(user.cv)" *ngIf="params==='ექიმები'" class="download-button button">
               <img src="../../../assets/images/download (1).svg"/>
             </button>
         </td>
@@ -38,9 +38,9 @@
 
     <tbody *ngIf="params==='კატეგორიები'" >
       <tr *ngFor="let cat of categories">
-        <td >{{cat.category}}</td>
+        <td i18n >{{cat.category}}</td>
         <td class="buttons">
-            <button (click)="deleteCategory(cat.id)" class="delete-button button">
+            <button (click)="deleteCategory(cat.id,cat.category)" class="delete-button button">
               <img src="../../../assets/images/delete-svgrepo-com 10.png"/>
             </button>
             <button (click)="showEditCategory(cat.category,cat.id)" class="edit-button button">
@@ -50,28 +50,31 @@
       </tr>
     </tbody>
   </table>
-  <button *ngIf="params==='კატეგორიები'" (click)="showAddCategory()" class="category-button">
+  <button i18n *ngIf="params==='კატეგორიები'" (click)="showAddCategory()" class="category-button">
     დამატება
   </button>
+  <div *ngIf="isCategoryUsed" class="window-wraper">
+    <p>{{isCategoryUsed}}</p>
+  </div>
   <div *ngIf="params==='კატეგორიები'&&AddCategory||EditCategory" class="window-wraper">
     <input class="input"  type="text" [(ngModel)]="inputValue" (change)="handleChange($event)">
-    <button class="category-button" *ngIf="AddCategory&&!EditCategory" (click)="addCategory()">დამატება</button>
-    <button class="category-button" *ngIf="EditCategory&&!AddCategory" (click)="editCategory()">შეცვლა</button>
+    <button i18n class="category-button" *ngIf="AddCategory&&!EditCategory" (click)="addCategory()">დამატება</button>
+    <button i18n class="category-button" *ngIf="EditCategory&&!AddCategory" (click)="editCategory()">შეცვლა</button>
   </div>
 
   <div *ngIf="params==='რეგისტრაცია'">
-    <button class="add-button" (click)="addUser()">დამატება</button>
+    <button i18n class="add-button" (click)="addUser()">დამატება</button>
   <div *ngIf="isOpen" class="overlay">
     <div *ngFor="let type of types">
-      <button (click)="navigateToRegister(type)" class="register-button" >{{type}}</button>
+      <button i18n (click)="navigateToRegister(type)" class="register-button" >{{type}}</button>
     </div>
   </div>
   </div>
   <div *ngIf="isOpen" class="overlay-container" (click)="removeOverlay()"></div>
 
   <div *ngIf="delete" class="overlay">
-    <p>ნამდვილად გსურთ წაშლა?</p>
-    <button (click)="deleteUser()" class="register-button">წაშლა</button>
-    <button (click)="removeWindow()"  class="register-button">გაუქმება</button>
+    <p i18n>ნამდვილად გსურთ წაშლა?</p>
+    <button i18n (click)="deleteUser()" class="register-button">წაშლა</button>
+    <button i18n (click)="removeWindow()"  class="register-button">გაუქმება</button>
   </div>
 </div>

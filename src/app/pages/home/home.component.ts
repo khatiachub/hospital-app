@@ -12,15 +12,21 @@ export class HomeComponent implements OnInit{
 
   public url='http://localhost:5134/Upload/Files/'
   public allDoctors:any;
-
 ngOnInit(): void {
   this.dataService.getAllDoctors().subscribe({
     next: (response) => {
-      this.allDoctors=response;      
+      this.allDoctors=response;  
+      console.log(this.allDoctors);
+          
     },
     error: (error) => {
       console.error('GET request failed:', error);
     },
+  });
+  this.dataService.doctorsData$.subscribe(data => {
+    if(data.length>0){
+      this.allDoctors = data;
+    }    
   });
 }
 clickOnCard(Id:string):void{
