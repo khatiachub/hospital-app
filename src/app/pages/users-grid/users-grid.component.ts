@@ -144,8 +144,8 @@ export class UsersGridComponent implements OnInit {
 
   downloadFile(cv: string): void {
     this.dataService.downloadFile(cv).subscribe({
-      next: (response: Blob) => {
-        const blob = new Blob([response], { type: 'application/pdf' }); 
+      next: (response: Blob) => {        
+        const blob = new Blob([response], { type:response.type==='application/pdf'?'application/pdf':'application/octet-stream' }); 
         const url = window.URL.createObjectURL(blob); 
         window.open(url, '_blank');
       },
@@ -153,7 +153,5 @@ export class UsersGridComponent implements OnInit {
         console.error('Download failed:', error);                
       },
     });
-  }
-  
-  
+  } 
 }

@@ -1,14 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../core/data-service.service';
-
+import { ThumbnailService } from '../../core/thumbnail.service';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss'
 })
+
 export class RegistrationComponent implements OnInit {
+
+  @ViewChild('fileInput') fileInput: any;
+  @ViewChild('imageInput') imageInput: any;
+
+
+  onImageClick() {
+    this.imageInput.nativeElement.click();
+  }
+  onFileClick() {
+    this.fileInput.nativeElement.click();
+  }
+
   form = new FormGroup({
     Name: new FormControl('', Validators.required),
     LastName: new FormControl('', Validators.required),
@@ -16,9 +29,10 @@ export class RegistrationComponent implements OnInit {
     PrivateNumber: new FormControl('', Validators.required),
     Password: new FormControl('', Validators.required),
     Role: new FormControl('', Validators.required),
-    Cv: new FormControl('',Validators.required),
-    ProfileImage: new FormControl('',Validators.required),
-    Category: new FormControl('',Validators.required),
+    Cv: new FormControl(''),
+    ProfileImage: new FormControl(''),
+    Category: new FormControl(''),
+    Description: new FormControl(''),
   });
 
 
@@ -30,9 +44,8 @@ export class RegistrationComponent implements OnInit {
       this.categories=response;
     }); 
  }
-  constructor(private dataService:DataService) {
+  constructor(private dataService:DataService,private thumbnailService: ThumbnailService) {
     this.type = history.state.type; 
-       
   if (this.type==='ექიმი') {
     this.form.get('Role')!.setValue('DOCTOR');
   }else if(this.type==='ადმინისტრატორი'){
@@ -49,17 +62,40 @@ export class RegistrationComponent implements OnInit {
     });
   }
   
-
+  thumbnailUrl: any;
   onFileSelected(event:any,controlName:string): void {
     const file = event.target.files[0];
-
-    this.form.get(controlName)?.setValue(file);
-
+    if (file&&controlName==='ProfileImage') {
+      this.generateThumbnailAndSetValue(file, controlName);
+    }else{
+      this.form.get(controlName)?.setValue(file);
+    }    
   }
-
+  
+  generateThumbnailAndSetValue(file: File, controlName: string): void {
+    this.generateThumbnail(file)
+      .then((thumbnailFile: File) => {
+        this.form.get(controlName)?.setValue(thumbnailFile);
+        this.thumbnailUrl=thumbnailFile 
+      })
+      .catch((error: any) => {
+        console.error('Error generating thumbnail:', error);
+      });
+  }
+  async generateThumbnail(file: File): Promise<File> {
+    try {
+      const resolvedFile = await this.thumbnailService.generateThumbnail(file, 200, 200);
+      console.log('Resolved File:', resolvedFile);
+      return resolvedFile;
+    } catch (error) {
+      console.error('Error generating thumbnail:', error);
+      throw error; 
+    }
+  }
+  
 
   registration():void{ 
-    const data=this.form.value;    
+    const data=this.form.value;        
     const formData = new FormData();
     Object.keys(data).forEach(key => {
       const value = this.form.get(key)?.value; 
@@ -91,13 +127,17 @@ export class RegistrationComponent implements OnInit {
       formData.append('PrivateNumber', privnumb.toString());
     }
     const img = this.form.get('ProfileImage')?.value; 
-    if (img) {
+    if (img) {      
       formData.append('ProfileImage', img);
     }
     
     const pass = this.form.get('Password')?.value; 
     if (pass) {
       formData.append('Password', pass);
+    }
+    const desc = this.form.get('Description')?.value; 
+    if (desc) {
+      formData.append('Description', desc);
     }
 
     if (this.form.valid) {
@@ -107,17 +147,15 @@ export class RegistrationComponent implements OnInit {
             console.log('account created successfully:', response);
             this.success=true;
             setTimeout(() => {
-              window.location.reload();
+              // window.location.reload();
             }, 5000);          
           },
           error: (error) => {
-            console.error('POST request failed:', error);
-            // console.log(formData);
-            
+            console.error('POST request failed:', error);            
           },
         });
       }
-      else{
+      else{        
         this.dataService.registration(formData).subscribe({
           next: (response) => {
             console.log('POST request successful:', response);
@@ -132,7 +170,7 @@ export class RegistrationComponent implements OnInit {
         });
       }
     } else {
-      this.form.markAllAsTouched();
+      this.form.markAllAsTouched();      
     }
   } 
   

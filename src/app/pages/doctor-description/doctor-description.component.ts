@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { User } from '../../shared/User.interface';
 import { DataService } from '../../core/data-service.service';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class DoctorDescriptionComponent implements OnInit {
   public currentPath: string;
+  @Input() doctorId!: string;
   constructor(private dataService: DataService,private router: Router) {this.currentPath = this.router.url}
 
   public doctor!:User;
@@ -18,13 +19,12 @@ export class DoctorDescriptionComponent implements OnInit {
   ngOnInit(): void {
     const parts = this.currentPath.split('/');
     const id = parts[parts.length - 1];    
-    // console.log(id);
 
     this.dataService.getDoctor(id).subscribe((data) => {
-      console.log(data);
-      console.log(data?.profileImage);
-      
+      this.doctorId=data.id;
       this.doctor=data
+      console.log(data);
+      
     });
   }
 }

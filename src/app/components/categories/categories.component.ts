@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../core/data-service.service';
 import { Router } from '@angular/router';
 import { Category } from '../../shared/Category.interface';
-import { error } from 'console';
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
@@ -11,13 +10,17 @@ import { error } from 'console';
 })
 
 export class CategoriesComponent implements OnInit {
-  constructor(private router:Router,private readonly dataService:DataService) {}
+  constructor(private router:Router,private readonly dataService:DataService,private translate: TranslateService) {}
   public cat:Category[]=[];
   showAllElements: boolean = false;
   public categories:any;
+  translatedCategories: string[] = [];
+
+
 ngOnInit(): void {
   this.dataService.getCategories().subscribe((response) => {
-    this.cat=response;
+    // this.translateCategories(response)
+    this.cat=response
     this.cat.map((cat)=>(
       this.dataService.getDoctorsByCategory(cat.category).subscribe({
         next:(response)=>{
@@ -29,8 +32,29 @@ ngOnInit(): void {
        })
     ))
   });
-  
+
 }
+
+// translateCategories(categories: any[]): void {
+//   categories.forEach(category => {
+//     category.category = this.getTranslation(category.category);
+//     console.log(category.category);
+//   });
+//   this.cat = categories;
+// }
+
+//   getTranslation(categoryName: string): string {
+//     const translations:{[key: string]: string} = {
+//       'ანდროლოგი': 'Andrologist',
+//     };
+//     return translations[categoryName] || categoryName;
+   
+// }
+
+
+
+
+
 
 toggleShowAll(): void {
   this.showAllElements = !this.showAllElements;

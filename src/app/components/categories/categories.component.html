@@ -1,6 +1,6 @@
 <div class="categories-card">
    <div class="list-wraper">
-    <h2 i18n class="list-title">კატეგორიები</h2>
+    <h2 i18n class="list-title">{{'categories' | translate}}</h2>
     <div class="list-container">
         <div class="list">
             <ul *ngFor="let category of cat | slice:0:(showAllElements ? cat.length : 14)">
@@ -9,11 +9,11 @@
         </div>
         <div class="list-category">
             <ul class="list" *ngFor="let category of cat | slice:0:(showAllElements ? cat.length : 14)">
-                <li i18n class="title" (click)="getCategory(category!.category)">{{category!.category}}</li>
+                <li i18n class="title" (click)="getCategory(category!.category)">{{category!.category | translate}}</li>
             </ul>
         </div>
     </div>
    </div>
-   <span i18n style="color: #18A4E1; margin-top: 20px;" (click)="toggleShowAll()">სრულად ნახვა</span>
+   <span i18n style="color: #18A4E1; margin-top: 20px;" (click)="toggleShowAll()">{{'full' | translate}}</span>
 
 </div>

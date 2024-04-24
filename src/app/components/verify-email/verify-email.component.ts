@@ -22,6 +22,7 @@ export class VerifyEmailComponent implements OnInit {
       next: (response) => {
        localStorage.setItem('token', response.jwtToken);
        localStorage.setItem('id', response.user.id);
+       localStorage.setItem('role', response.user.role);
        this.router.navigate([`edituser/${response.user.id}`],{state:{id:response.user.id}}).then(() => {
          window.location.reload();
        }); 

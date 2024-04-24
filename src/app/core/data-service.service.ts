@@ -1,6 +1,7 @@
 import { HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 
@@ -10,7 +11,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 export class DataService {
 
-  constructor(private http: HttpClient,private router:Router) {}
+  constructor(private http: HttpClient,private router:Router,private translate: TranslateService) {    
+  }
   private url="http://localhost:5134/api"
  
   
@@ -95,9 +97,13 @@ export class DataService {
 
   // Method to perform logout
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('id');
-    this.router.navigate(['/'], { replaceUrl: true }).then(() => {
+    if (typeof localStorage !== 'undefined') {
+      window.localStorage.removeItem('token');
+      window.localStorage.removeItem('id');
+      } else {
+      console.log('localStorage is not available.');
+    }
+    this.router.navigate(['/home'], { replaceUrl: true }).then(() => {
       window.location.reload();
     });
   }
@@ -136,5 +142,52 @@ export class DataService {
       responseType: 'blob' 
     });
   }
+
+  setLanguage(language: string) {
+    if(localStorage!=undefined){
+      window.localStorage.setItem('lang', language);
+    }
+  }
+
+  getLanguage(language:string|null): string | null {
+    return language
+}
+
+
+  //add events
+  addEvent(data:any): Observable<any> {
+    return this.http.post<any>(`${this.url}/AddEvent`,data);
+  }
+  getEvent(): Observable<any> {
+    return this.http.get<any>(`${this.url}/GetEvent`);
+  }
+  editEvent(data:any): Observable<any> {
+    return this.http.put<any>(`${this.url}/EditEvent/${data.id}`,data);
+  }
+  // deleteEvent(id:number): Observable<any> {
+  //   return this.http.delete<any>(`${this.url}/DeleteEvent/${id}`);
+  // }
+
+  addEventForEvent(data:any,id:number): Observable<any> {
+    return this.http.post<any>(`${this.url}/${id}/Events`,data);
+  }
+  getEventForEvent(id:number): Observable<any> {
+    return this.http.get<any>(`${this.url}/${id}/Events`);
+  }
+  editEventForEvent(data:any,calendarId:number,eventId:number): Observable<any> {
+    return this.http.put<any>(`${this.url}/${calendarId}/Events/${eventId}`,data);
+  }
+  deleteEventForEvent(calendarId:number,eventId:number): Observable<any> {
+    return this.http.delete<any>(`${this.url}/${calendarId}/Events/${eventId}`);
+  }
+
+  private bookData = new BehaviorSubject<number>(0);
+  book$: Observable<number> = this.bookData.asObservable();
+
+  updateBook(data: number) {
+    this.bookData.next(data);
+  }
+  
+  
 }
 

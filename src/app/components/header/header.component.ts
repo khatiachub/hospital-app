@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../core/data-service.service';
 import { User } from '../../shared/User.interface';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-
+import { ChangeDetectorRef } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HeaderComponent implements OnInit{
   
-  constructor(private dataService: DataService,private router:Router,private translate: TranslateService) {translate.setDefaultLang('en')}
+  constructor(public dataService: DataService,private router:Router,private translate: TranslateService,private cdr: ChangeDetectorRef) {translate.setDefaultLang('en')}
   public data:boolean=false;
   public admin!:string;
   public SearchByName!:string;
@@ -25,21 +26,19 @@ export class HeaderComponent implements OnInit{
   public matchedDoctors:User[]=[]
   public Token!:string|null;
   public url='http://localhost:5134/Upload/Files/'
+  public language=true;
+  lang!:string|null;
+  selectedEN='';
+  switchLanguage(event: any) {
+    if(event==='ka'){
+      this.selected='en'
+    }else{
+      this.selected='ka'
+    }
+    localStorage.setItem('event', this.selected);
+    window.location.reload();
+}
 
-
-  switchLanguage(language: string) {
-    this.translate.use(language).subscribe(() => {
-      console.log(`Language switched to ${language}`);
-      // Example: Navigate to a different route based on the selected language
-      if (language === 'en') {
-        this.router.navigate(['/en']);
-      } else if (language === 'ka') {
-        this.router.navigate(['/ka']);
-      }
-    });
-  
-    
-  }
   Authorize():void{
     this.data=true;    
     this.dataService.updateData(this.data);
@@ -53,7 +52,21 @@ export class HeaderComponent implements OnInit{
 
   id:any;
   isAuthenticated=false;
+  selected:any='';
+  homepath!:string | undefined;
+ 
   ngOnInit(): void {
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {      
+      const url = event.url.split('/'); 
+      this.homepath= url.find(segment => segment === 'home') 
+    });
+      this.selected = localStorage.getItem('event');
+      this.translate.use( this.selected);
+      this.dataService.setLanguage( this.selected);
+
+  
     if(typeof localStorage !== 'undefined' &&localStorage.getItem('id')){
       this.id = localStorage.getItem('id')||null;
     }
@@ -77,14 +90,23 @@ export class HeaderComponent implements OnInit{
     }else{
       return
     }
+
+    if(localStorage!==undefined){
+     this.lang=localStorage.getItem('lang');
+    }
+    
+    
+    const savedLanguage = this.dataService.getLanguage(this.lang);
+    if (savedLanguage) {
+      this.translate.use(savedLanguage);
+    } else {
+    }
   }
 
   handleChange(event:any):void{
     const propertyName = event.target.name; 
     const propertyValue = event.target.value;
-    this.search= {...this.search,[propertyName]: propertyValue};  
-    console.log(this.search);
-          
+    this.search= {...this.search,[propertyName]: propertyValue};            
   }
 
   public names!:any;
@@ -101,17 +123,13 @@ export class HeaderComponent implements OnInit{
       this.Doctors=data  
       if (this.Doctors) {
         this.dataService.setDoctorsData(this.Doctors);
-        console.log(this.Doctors);
-        
       }
     });  
     }else if(this.search.category&&this.search.name===''){
        this.dataService.getDoctorsByCategory(this.search.category).subscribe((data) => {
         this.Categories=data  
         if (this.Categories) {
-          this.dataService.setDoctorsData(this.Categories);
-          console.log(this.Categories);
-          
+          this.dataService.setDoctorsData(this.Categories);          
         }
       });  
     }else if(this.search.category&&this.search.name){

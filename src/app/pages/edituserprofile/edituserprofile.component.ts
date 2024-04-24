@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DataService } from '../../core/data-service.service';
-import { response } from 'express';
-
 @Component({
   selector: 'app-edituserprofile',
   templateUrl: './edituserprofile.component.html',
   styleUrl: './edituserprofile.component.scss'
 })
 export class EdituserprofileComponent implements OnInit {
+  @Input() doctorId!: string;
+  @Input() role!:string;
+
   constructor(private dataService:DataService) {}
   id!:string;
   user!:any;
@@ -25,20 +26,47 @@ export class EdituserprofileComponent implements OnInit {
   public url='http://localhost:5134/Upload/Files/'
   Role=history.state.type;
   UserRole!:string;
+  errorCode:string='';
+  errorPassword:string='';
+  errorEmail:string='';
+  error:string='';
+  isAdmin=false;
 
-  ngOnInit(): void {
-    this.id = history.state.id;    
+  receivedData!:number;
+  
+  ngOnInit(): void { 
+    this.dataService.book$.subscribe((data) => {
+      this.receivedData = data;
+    });
+    
+    
+    const id=localStorage.getItem('id')
+    if(id!==history.state.id){
+      this.isAdmin=true;
+    }
+     
+    this.id = history.state.id; 
+    this.doctorId=history.state.id;   
     if(this.id){
       this.dataService.getUser(this.id).subscribe({
         next: (response) => {
           this.user=response;
           this.UserRole=response.role;
+          this.role=response.role;
+          console.log(response);
+          
         },
         error: (error) => {
         },
       })
     }else{
       return
+    }
+    const authStatus = localStorage.getItem('twoFactorAuth');    
+    if (authStatus==='two step authorization is on') {
+      this.turnOn = true;
+    } else {
+      this.turnOn=false;
     }
     
   }
@@ -88,7 +116,7 @@ export class EdituserprofileComponent implements OnInit {
         window.location.reload();
       },
       error: (error) => {
-        console.error('put request failed:', error);
+        this.error='დაფიქსირდა შეცდომა';
       },
     })
   }
@@ -98,7 +126,7 @@ export class EdituserprofileComponent implements OnInit {
         window.location.reload();
       },
       error: (error) => {
-        console.error('password change request failed:', error);
+       this.errorPassword='პაროლები არ ემთხვევა'
       },
     })
   }
@@ -106,39 +134,48 @@ export class EdituserprofileComponent implements OnInit {
 
 
   currentCode!:string;
-  sendCodeToEmail():void{    
+  sendCodeToEmail():void{  
     this.dataService.sendEmailChangeCodeToEmail(this.data,this.user.id).subscribe({
       next: (response) => {       
         this.inputValue='';
         this.EnterCode=true;
-        this.currentCode=response.randomeCode;        
+        this.currentCode=response.randomeCode;     
       },
       error: (error) => {
-        console.error('sending code to failed:', error);
+        this.errorEmail='არასწორი მეილი'
       },
     })
   }
 
   codeData:any;
-  enterCode():void{   
+  enterCode():void{
+    this.errorEmail='';
     this.codeData= {
       code:this.currentCode,
-      newCode:this.data.email
+      newCode:this.data.email,
     }
+    
     this.dataService.enterEmailChangeCode(this.codeData,this.user.id).subscribe({
-      next: (response) => {              
-        this.inputValue='';
-        this.EnterNewEmail=true;
+      next: (response) => {   
+        if(this.codeData.newCode===this.codeData.code){
+          this.inputValue='';
+          this.errorCode='';
+          this.EnterNewEmail=true;
+        } else{
+          this.errorCode='არასწორი კოდი' 
+        }       
       },
       error: (error) => {
-        console.error('sending code to failed:', error);
+        this.errorCode='არასწორი კოდი' 
       },
     })
   }
 
   emailData:any;
   email:any;
-  enterNewEmail():void{   
+  enterNewEmail():void{  
+    this.errorEmail=''; 
+    this.errorCode='';
     this.dataService.enterNewEmail(this.data,this.user.id).subscribe({
       next: (response) => {       
         this.currentCode=response.randomeCode;        
@@ -147,12 +184,15 @@ export class EdituserprofileComponent implements OnInit {
         this.email=response.email
       },
       error: (error) => {
-        console.error('sending code to failed:', error);
+        this.errorEmail='არასწორი იმეილი'
       },
     })
   }
 
-  changeEmail():void{   
+  changeEmail():void{ 
+    this.errorCode=''; 
+    this.errorEmail='';
+    this.error='';
     this.codeData= {
       code:this.currentCode,
       newCode:this.data.email,
@@ -165,8 +205,7 @@ export class EdituserprofileComponent implements OnInit {
         window.location.reload();
       },
       error: (error) => {
-        console.error('sending code to failed:', error);
-        console.log(this.codeData);
+        this.error='დაფიქსირდა შეცდომა';
       },
     })
   }
@@ -178,6 +217,8 @@ export class EdituserprofileComponent implements OnInit {
     this.dataService.turnOnTwoStep(this.id).subscribe({
       next:(response)=>{
         console.log(response);
+        localStorage.setItem('twoFactorAuth', response.result); 
+
       },
       error: (error) => {
         console.error('failed to turn on 2-factored', error);

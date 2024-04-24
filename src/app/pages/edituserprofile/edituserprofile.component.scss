@@ -2,12 +2,15 @@
     box-shadow: 0px 4px 30px 0px #0533540D;
     width: 100%;
     min-height: 315px;
-    margin-top: 50px;
     padding: 20px;
     border-radius: 10px;
     display: flex;
     align-items:start;
     justify-content: space-between;
+    // background-color: blue;
+}
+.container{
+    width: 100%;
 }
 .image-wraper{
     display: flex;
@@ -75,17 +78,14 @@
     margin-left: 10px;
     color: #0533544D;
 }
-.container{
-    width: 85%;
-    margin: 0 auto;
-}
+
 .overlay{
     max-width: 350px;
     width: 100%;
-    min-height: 300px;
+    height: 300px;
     border-radius: 10px;
     box-shadow: 0px 4px 30px 0px #0533540D;
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -152,3 +152,31 @@
     align-items: center;
     padding: 10px;
 }
+.calendar-container{
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+.calendar{
+    max-width: 830px;
+    width: 100%;
+    margin-left: 40px;
+}
+
+@media screen  and  (max-width:1450px) {
+
+    .calendar{
+        max-width: 400px;
+    }
+}
+@media screen  and  (max-width:1300px) {
+    .calendar-container{
+        flex-wrap: wrap;
+    }
+    .calendar{
+        margin-left: 0px;
+        max-width: 750px;
+        margin-top: 30px;
+    }
+}
+

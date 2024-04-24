@@ -1,2 +1,111 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'assets/reset.scss';
+/* angular-cli file: src/styles.css */
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+
+
+
+
+
+  .cal-week-view .cal-hour {
+    background-color:#fff !important;
+    border-bottom: 1px solid #ECF2F8  !important;
+    height: 60px !important;
+
+  }
+  .cal-week-view .cal-hour-segment {
+    border-bottom: 1px solid #ECF2F8  !important;
+    height: 60px !important;
+  }
+ 
+
+ 
+.cell{
+  height:59px;
+  width: 100%;
+}
+ 
+  
+
+
+  .cal-week-view .cal-event {
+    color: #3ACF99 !important;
+    height: 60px !important;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+ 
+  .cal-week-view .cal-header span {
+    color: #ECF2F8;
+  }
+  .cal-week-view .cal-header.cal-weekend span {
+    color: #ECF2F8;
+  }
+  
+.custom-header{
+  background-color: #ECF2F8 !important;
+  height: 48px;
+  width: 100%;
+  display: flex !important;
+  justify-content:end;
+  align-items: center;
+  padding: 10px;
+}
+.btn{
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+.custom-child-header{
+  width: 90%;
+  display: flex !important;
+  justify-content:space-between;
+  align-items: center;
+}
+
+  .cal-week-view .cal-day-headers .cal-header,
+.cal-week-view .cal-day-headers .cal-drag-over {
+  background-color: #ECF2F8 !important;
+}
+.cal-week-view .cal-day-headers .cal-header,
+.cal-week-view .cal-day-headers .cal-drag-over {
+  border: none !important;
+}
+.cal-week-view {
+    background-color: #fff;
+    border-top: solid 1px #e1e1e1;
+  }
+  .cal-week-view .cal-hour-segment.cal-after-hour-start .cal-time {
+    display: block !important;
+  }
+  .cal-week-view .cal-time {
+    font-family: FiraGO;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.2px;
+    text-align: center;
+  }
+  
+
+  .cal-week-view .cal-time-events .cal-event {
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    margin: 1px;
+    padding: 0 5px;
+    line-height: 25px;
+  }
+
+  .cal-week-view .cal-day-headers .cal-header {
+    padding: 15px 5px 5px 5px;
+  }
+
+ 
+
+  
+  

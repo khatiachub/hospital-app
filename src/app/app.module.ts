@@ -18,14 +18,22 @@ import { AdminPanelComponent } from './pages/admin-panel/admin-panel.component';
 import { UsersGridComponent } from './pages/users-grid/users-grid.component';
 import { EdituserprofileComponent } from './pages/edituserprofile/edituserprofile.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import {CalendarDateFormatter,CalendarModule,CalendarMomentDateFormatter,DateAdapter,MOMENT,} from 'angular-calendar';
+import moment from 'moment';
+import { adapterFactory } from 'angular-calendar/date-adapters/moment';
+import { CustomDateFormatter } from './components/calendar/custom-date-formatter.provider';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-
+export function momentAdapterFactory() {
+  return adapterFactory(moment);
+}
 
 @NgModule({
   declarations: [
@@ -50,19 +58,44 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
+    NgbModalModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    BrowserAnimationsModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot(
+      {
+        provide: DateAdapter,
+        useFactory: momentAdapterFactory,
+      },
+    {
+      dateFormatter: {
+        provide: CalendarDateFormatter,
+        useClass: CalendarMomentDateFormatter,
+      },
+    },
+  )
   ],
   providers: [
     provideClientHydration(),
     provideHttpClient(),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    CustomDateFormatter,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    {
+      provide: MOMENT,
+      useValue: moment,
+    },
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(translate: TranslateService) {
+    translate.setDefaultLang('ka'); 
+    translate.use('ka');
+  }
+ }

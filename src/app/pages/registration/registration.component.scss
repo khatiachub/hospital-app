@@ -8,7 +8,7 @@
     margin-bottom: 20px;
 }
 .form{
-    width: 85%;
+    width: 100%;
     min-height: 330px;
     display: flex;
     flex-direction: column;
@@ -16,6 +16,7 @@
 .form-title{
     color:#18A4E1;
     font-size: 26px;
+    margin-left: 10px;
 }
 .input-wraper{
     display: flex;
@@ -23,6 +24,7 @@
     max-width: 480px;
     width: 100%;
     margin-top: 20px;
+    margin-left: 10px;
 }
 .input{
     width: 100%;
@@ -31,6 +33,12 @@
     border-radius: 50px;
     outline: none;
     margin-top: 10px;
+    position: relative;
+}
+.img{
+    position: absolute;
+    right: 10px;
+    top: 15px;
 }
 .form-div{
     display: flex;

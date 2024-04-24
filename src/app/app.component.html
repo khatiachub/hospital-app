@@ -8,9 +8,10 @@
         <app-categories *ngIf="showCategories"></app-categories>
     </div>
     <div *ngIf="showCategories" class="outlet-wraper">
-        <router-outlet></router-outlet>
+        <router-outlet ></router-outlet>
     </div>
 </div>
-<router-outlet *ngIf="!showCategories"></router-outlet>
-
+<div class="outlet">
+    <router-outlet *ngIf="!showCategories"></router-outlet>
+</div>
 <app-footer></app-footer>

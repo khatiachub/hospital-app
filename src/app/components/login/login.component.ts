@@ -44,9 +44,11 @@ RecoverySuccess=false;
               this.Code=true;
               this.LoginEnabled=false;
               this.responseData=response;
+              
           }else{
             localStorage.setItem('token', response.token);
             localStorage.setItem('id', response.id);
+            localStorage.setItem('role',response.role)
             this.router.navigate(['home']).then(() => {
               window.location.reload();
             });            
@@ -67,6 +69,8 @@ RecoverySuccess=false;
 
   errorCode:boolean=false;
   sendCode():void{
+    console.log(this.responseData);
+    
     this.responseData.newCode=this.enterCode;    
     this.dataService.enterCode(this.responseData).subscribe({
       next: (response) => {
@@ -79,6 +83,7 @@ RecoverySuccess=false;
       },
       error: (error) => {
         this.errorCode=true;
+        console.log(error);
       },
     });
   }
@@ -147,7 +152,6 @@ RecoverySuccess=false;
 
   sendResetCode():void{
     this.RecoveryData.newCode=this.enterEmail.EnterRecoverCode;
-    console.log(this.RecoveryData);
     
     this.dataService.sendResetCode(this.RecoveryData).subscribe({
       next:(response)=>{
@@ -158,6 +162,8 @@ RecoverySuccess=false;
       },
       error:(error)=>{
         this.errorCode=true;
+        console.log(error);
+        
       }
     })
   }
@@ -172,23 +178,30 @@ RecoverySuccess=false;
         this.enableGenerateButton = true;
       }, 60000);
   }
+  matchError:string='';
+  validateError:string='';
   resetPassword():void{
     this.RecoveryData.newPassword=this.enterEmail.newPassword
     this.RecoveryData.confirmPassword=this.enterEmail.confirmPassword
-    console.log(this.RecoveryData);
+    if(this.RecoveryData.newPassword!==this.RecoveryData.confirmPassword){
+      this.matchError='პაროლები არ ემთხვევა'
+    }else{
+      this.dataService.enterNewPassword(this.RecoveryData).subscribe({
+        next:(response)=>{
+          this.EnableNewPassword=false;
+          this.RecoverySuccess=true;
+          setTimeout(() => {
+            this.LoginEnabled = true;
+            this.RecoverySuccess=false;
+          }, 3000);      
+        },
+        error:(error)=>{
+          this.matchError='';
+          this.validateError='სავალდებულოა მინიმუმ 8 სიმბოლო'
+        }
+      })
+    }
     
-    this.dataService.enterNewPassword(this.RecoveryData).subscribe({
-      next:(response)=>{
-        this.EnableNewPassword=false;
-        this.RecoverySuccess=true;
-        setTimeout(() => {
-          this.LoginEnabled = true;
-          this.RecoverySuccess=false;
-        }, 3000);      },
-      error:(error)=>{
-        console.log(error);
-      }
-    })
   }
 }
 

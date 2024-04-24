@@ -17,19 +17,34 @@ export class AppComponent implements OnInit{
   }
   showCategories: boolean = true; 
   public open:boolean=false;
-
-  ngOnInit(): void {
+  id!:string|null;
+  role!:string;
+  ngOnInit(): void {  
     this.dataService.data$.subscribe(data => {
       this.open = data;
     });
     
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
+    ).subscribe((event: NavigationEnd) => {      
       const url = event.url.split('/'); 
       const adminPanelPath = url.find(segment => segment === 'admin-panel') 
-      const edituser = url.find(segment => segment === 'edituser')           
-       if(event.url==='/registration'||adminPanelPath||event.url==='/grids'||edituser){
+      const edituser = url.find(segment => segment === 'edituser') 
+      // const userId=event.url.split('/')
+      const id=localStorage.getItem('id');  
+      // if(url[2]){
+      //   this.dataService.getUser(url[2]).subscribe({
+      //     next: (response) => {
+      //     },
+      //     error: (error) => {
+      //     },
+      //   })
+      // }else{
+      //   return
+      // }
+console.log(event.url);
+
+       if(event.url==='/registration'||adminPanelPath||event.url==='/grids'||(edituser&&url[2]!==id)){
         this.showCategories=false
        }else{
         this.showCategories=true;        

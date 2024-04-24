@@ -1,34 +1,37 @@
 <div class="header-wraper">
     <div class="logo-div">
         <img class="logo" src="../../../assets/images/logo 1.png"/>
-        <h3 i18n class="clinic-text">კლინიკა</h3>
+        <h3 i18n class="clinic-text">{{'clinic-text' | translate}}</h3>
     </div>
     <nav class="navigation">
         <div class="nav-border-div">
-        <a i18n="@@home" class="nav-link" routerLink="/home">ექიმები</a>
-        <a i18n="@@clinics" class="nav-link" routerLink="/#">კლინიკები</a>
-        <a i18n class="nav-link" routerLink="/#">ანოტაციები</a>
-        <a i18n class="nav-link" routerLink="/#">აქციები </a>
-        <a i18n class="nav-link" routerLink="/#">სერვისები</a>
-        <a i18n class="nav-link" routerLink="/#">მედიკამენტები</a>
-        <a i18n class="nav-link" routerLink="/#">კონტაქტი</a> 
+        <a  class="nav-link" routerLink="/home">{{'home' | translate}}</a>
+        <a  class="nav-link" routerLink="/#">{{'clinics' | translate}}</a>
+        <a  class="nav-link" routerLink="/#">{{'annotations' | translate}}</a>
+        <a  class="nav-link" routerLink="/#">{{'offers' | translate}}</a>
+        <a  class="nav-link" routerLink="/#">{{'services' | translate}}</a>
+        <a  class="nav-link" routerLink="/#">{{'medications' | translate}}</a>
+        <a  class="nav-link" routerLink="/#">{{'contact' | translate}}</a> 
         </div>
-        <div [ngStyle]="{ 'justify-content': user.profileImage ? 'space-between' : 'center', 'padding-left': user.profileImage ? '0px' : '10px' }" (click)="goToProfile(user.id)" class="nav-auth-button" *ngIf="user && !admin;">
+        <div [ngStyle]="{ 'justify-content': isAuthenticated ? 'space-between' : 'center', 'padding-right': isAuthenticated ? '30px' : '20px','padding-left': isAuthenticated ? '0px' : '20px' }" (click)="goToProfile(user.id)" class="nav-auth-button" *ngIf="user && !admin;">
             <img *ngIf="user.profileImage" class="profileimage" [src]="url+user.profileImage"/>
-            <p i18n class="nav-link-login">{{user.name}} {{user.lastName}}</p>                                        
+            <img *ngIf="!user.profileImage" class="profileimage" src="../../../assets/images/avatar.png"/>
+            <p  class="nav-link-login">{{user.name}} {{user.lastName}}</p>                                        
         </div>
-        <div (click)="goToAdminPanel(user.id)" class="nav-auth-button" *ngIf="admin">
-            <p i18n class="nav-link-login">{{admin}}</p>                                        
+        <div [ngStyle]="{ 'justify-content': isAuthenticated ? 'space-between' : 'center', 'padding-right': isAuthenticated ? '60px' : '20px','padding-left': isAuthenticated ? '0px' : '20px' }" (click)="goToAdminPanel(user.id)" class="nav-auth-button" *ngIf="admin">
+            <img *ngIf="!user.profileImage" class="profileimage" src="../../../assets/images/avatar.png"/>
+            <p  class="nav-link-login">{{'admin' | translate}}</p>                                        
         </div>
         <div *ngIf="!user&&!admin">
             <button  class="nav-auth-button">
-                <p i18n class="nav-link-login" (click)="Authorize()">ავტორიზაცია</p>                                        
-                <a i18n class="nav-link" routerLink="/registration">/ რეგისტრაცია</a>
+                <p  class="nav-link-login" (click)="Authorize()">{{'login' | translate}}</p>                                        
+                <a  class="nav-link" routerLink="/registration">/ {{'registration' | translate}}</a>
             </button>
         </div>
-        <button class="nav-lang-button" (click)="switchLanguage('en')">EN</button>
-        <button class="nav-lang-button" (click)="switchLanguage('ka')">KA</button>
-                                                                       
+        <div class="language-wraper">
+            <div *ngIf="selected=== 'en'" (click)="switchLanguage('en')" >ENG</div>
+            <div *ngIf="selected=== 'ka'" (click)="switchLanguage('ka')" >GE</div>
+        </div>                                                           
     </nav>
 </div>
 <div class="container">
@@ -44,14 +47,15 @@
                 <div class="image-wraper">
                     <img src="../../../assets/images/location-svgrepo-com (1) 2.png"/>
                 </div>
-                <span i18n class="span-text">იაკობ ნიკოლაძე №10</span>
+                <span  class="span-text">{{'address' | translate}}</span>
             </div>
         </div>
         
-        <input i18n-placeholder [(ngModel)]="names" name="name" (change)="handleChange($event)" class="search-input" placeholder="მოძებნე ექიმი სახელით"/>
-        <input i18n-placeholder [(ngModel)]="SearchByCategory" name="category" (change)="handleChange($event)" class="search-input" placeholder="მოძებნე სპეციალობით"/>
+        <input  [(ngModel)]="names" name="name" (change)="handleChange($event)" class="search-input" placeholder="{{'search_placeholder_name' | translate}}"/>
+        <input  [(ngModel)]="SearchByCategory" name="category" (change)="handleChange($event)" class="search-input" placeholder="{{'search_placeholder_category' | translate}}"/>
         <div (click)="handleClick()" class="image-wraper img-div">
             <img src="../../../assets/images/ri_search-line.png"/>
         </div>
     </div>
 </div>
+<img *ngIf="homepath" style="width: 100%;" src="../../../assets/images/სლაიდერი.jpg"/>

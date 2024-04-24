@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../core/data-service.service';
+
 
 @Component({
   selector: 'app-admin-panel',
@@ -8,18 +9,21 @@ import { DataService } from '../../core/data-service.service';
   styleUrl: './admin-panel.component.scss'
 })
 export class AdminPanelComponent implements OnInit {
+
   constructor(private userService:DataService,private router:Router,private route:ActivatedRoute) {}
   public id!:string;
   public authResponse!:boolean;
   public turnOn!:boolean;
 
+
+
   goToGrid(params:string):void{
-    this.router.navigate(['/grids'],{state:{params}})
+    this.router.navigate(['/grids'],{state:{params}})    
   }
   logOut():void{
     this.userService.logout();
   }
-
+  
   
   toggleTwoFactored(): void {
     this.turnOn = !this.turnOn;

@@ -11,32 +11,30 @@ table {
   border-collapse: collapse;
   font-family: sans-serif;
   font-size: 0.8rem;
-  letter-spacing: 1px;
-  width: 100%;
   margin-top: 50px;
   box-shadow: 0px 4px 30px 0px #0533540D;
-}
-
-caption {
-  caption-side: bottom;
-  padding: 10px;
 }
 
 
 td {
   border-bottom: 1px solid #ECF2F8 ; 
   padding:15px;
+  width: 100%;
   text-align: left;
   vertical-align: middle;
+  line-height: 19.2px;
 }
 th{
   padding:15px;
   text-align: left;
+  font-weight:bold;
+  color: #053354;
 }
 
 .buttons{
   display: flex;
   justify-content: space-around;
+  width: 200px;
 }
 .delete-button{
   background-color: #FF93A6;
@@ -67,7 +65,7 @@ th{
     border: none;
 }
 .wraper{
-  width: 50%;
+  width: 60%;
   margin: 0 auto;
   min-height: 500px;
 }
@@ -76,10 +74,11 @@ th{
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   height: 350px;
   display: flex;
-  background-color: #fff;
+  background-color: #ffffff;
   box-shadow: 0px 4px 30px 0px #0533540D;
   flex-direction: column;
   justify-content: space-around;
@@ -112,7 +111,7 @@ th{
   max-width: 300px;
   width: 100%;
   height: 250px;
-  background-color: #fff;
+  background-color: #ffffff;
   box-shadow: 0px 4px 30px 0px #0533540D;
   border-radius: 10px;
   position: fixed;
@@ -125,6 +124,10 @@ th{
   justify-content: space-around;
   align-items: center;
   z-index: 100;
+}
+.stars{
+  display: flex;
+  justify-content: space-between;
 }
 .category-button{
   max-width: 300px;
