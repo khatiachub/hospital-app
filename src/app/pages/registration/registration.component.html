@@ -139,6 +139,7 @@
       <button i18n *ngIf="type === 'ექიმი'||type === 'Doctor'" type="submit" class="button">
         {{ "registration" | translate }}
       </button>
+      <p style="color: red;" *ngIf="EmailUsedError">{{'isEmailUsed' | translate}}</p>
     </div>
     
   </form>

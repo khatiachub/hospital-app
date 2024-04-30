@@ -3,6 +3,7 @@ import { DataService } from '../../core/data-service.service';
 import { User } from '../../shared/User.interface';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { log } from 'console';
 
 @Component({
   selector: 'app-users-grid',
@@ -30,6 +31,8 @@ export class UsersGridComponent implements OnInit {
   public isCategoryUsed!: string;
 
   ngOnInit(): void {
+    console.log(history.state.params);
+    
     if (history.state.params === 'რეგისტრაცია') {
       this.role = 'USER';
     } else if (
@@ -39,11 +42,15 @@ export class UsersGridComponent implements OnInit {
       this.role = 'DOCTOR';
     }
 
-    this.dataService.getByRoles(this.role).subscribe({
+    
+    this.dataService.getByRoles(this.role).subscribe({      
       next: (response) => {
         this.users = response;
+        console.log(response);
+        
       },
-      error: (error) => {},
+      error: (error) => {console.log(error);
+      },
     });
 
     this.dataService.getCategories().subscribe((response) => {

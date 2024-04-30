@@ -1045,6 +1045,21 @@
 						</translations>
 					</concept_node>
 					<concept_node>
+						<name>isEmailUsed</name>
+						<description/>
+						<comment/>
+						<translations>
+							<translation>
+								<language>en-US</language>
+								<approved>false</approved>
+							</translation>
+							<translation>
+								<language>ka-GE</language>
+								<approved>false</approved>
+							</translation>
+						</translations>
+					</concept_node>
+					<concept_node>
 						<name>Laboratory</name>
 						<description/>
 						<comment/>

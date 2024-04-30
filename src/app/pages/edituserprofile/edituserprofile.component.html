@@ -36,11 +36,11 @@
         >
           <h2 i18n class="name"
           >
-          {{user?.name}} {{user?.lastName}}
+          {{user?.name}} 
         </h2>
-          <!-- <h2 i18n style="margin-left: 10px" class="name">
+          <h2  style="margin-left: 10px" class="name">
             {{ user?.lastName }}
-          </h2> -->
+          </h2>
         </div>
         <p i18n *ngIf="Role === 'ექიმი'" class="category-title"         
         translate [translateParams]="{ 'category': user?.category }"

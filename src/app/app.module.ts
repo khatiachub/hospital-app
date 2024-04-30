@@ -72,10 +72,7 @@ export function translateHttpLoaderFactory(httpBackend: HttpBackend): TranslateH
         provide: TranslateCompiler,
         useClass: TranslateMessageFormatCompiler
     },
-    parser: {
-      provide: TranslateParser,
-      useClass: TranslateICUParser
-    },
+    
     }),
     BrowserAnimationsModule,
     FlatpickrModule.forRoot(),

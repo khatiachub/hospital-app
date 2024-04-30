@@ -67,6 +67,7 @@
 	"home": "Home",
 	"Information": "Information",
 	"isBooked": "Booked",
+	"isEmailUsed": "Email is already used",
 	"Laboratory": "Laboratory",
 	"lastname": "lastname",
 	"login": "Login",

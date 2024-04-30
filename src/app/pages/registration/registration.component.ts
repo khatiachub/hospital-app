@@ -7,7 +7,9 @@ import {
 } from '@angular/forms';
 import { DataService } from '../../core/data-service.service';
 import { ThumbnailService } from '../../core/thumbnail.service';
-
+import { Category } from '../../shared/Category.interface';
+import { User } from '../../shared/User.interface';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -16,7 +18,7 @@ import { ThumbnailService } from '../../core/thumbnail.service';
 export class RegistrationComponent implements OnInit {
   @ViewChild('fileInput') fileInput: any;
   @ViewChild('imageInput') imageInput: any;
-
+  EmailUsedError:boolean=false;
   onImageClick() {
     this.imageInput.nativeElement.click();
   }
@@ -51,15 +53,20 @@ export class RegistrationComponent implements OnInit {
   });
 
   type: any;
-  categories: any;
+  categories:Category[]=[];
+  allUsers:User[]=[]
   ngOnInit(): void {
     this.dataService.getCategories().subscribe((response) => {
       this.categories = response;
     });
+    this.dataService.getAllUsers().subscribe((response) => {
+      this.allUsers = response;      
+    });
   }
   constructor(
     private dataService: DataService,
-    private thumbnailService: ThumbnailService
+    private thumbnailService: ThumbnailService,
+    private translate:TranslateService
   ) {
     this.type = history.state.type;    
     if (this.type === 'ექიმი'||this.type === 'Doctor') {
@@ -161,25 +168,39 @@ export class RegistrationComponent implements OnInit {
       if (this.type === 'ექიმი'||this.type === 'doctor') {
         this.dataService.registerDoctorAndAdmin(formData).subscribe({
           next: (response) => {
-            this.success = true;
-            setTimeout(() => {
-              window.location.reload();
-            }, 5000);
+            const isEmailUsed=this.allUsers.some((user:User)=>(user.email===this.form.get('Email')?.value))
+            if(isEmailUsed){
+              this.EmailUsedError=this.translate.instant('isEmailUsed')
+            }else{
+              this.success = true;
+              setTimeout(() => {
+                window.location.reload();
+              }, 5000);
+            }
           },
           error: (error) => {
-            console.error('POST request failed:', error);
+            this.EmailUsedError=true;
+            console.log('fffkfk');
+            
           },
         });
       } else {
         this.dataService.registration(formData).subscribe({
           next: (response) => {
-            this.success = true;
-            setTimeout(() => {
-              window.location.reload();
-            }, 5000);
+            const isEmailUsed=this.allUsers.some((user:User)=>(user.email===this.form.get('Email')?.value))
+            if(isEmailUsed){
+              this.EmailUsedError=true;          
+            }else{
+              this.success = true;
+              setTimeout(() => {
+                window.location.reload();
+              }, 5000);
+            }
           },
           error: (error) => {
-            console.error('POST request failed:', error);
+            this.EmailUsedError=true;
+            console.log(error);
+            
           },
         });
       }

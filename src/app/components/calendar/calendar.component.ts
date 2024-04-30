@@ -308,7 +308,10 @@ export class CalendarComponent implements OnInit {
           return matchedEvents.length > 0;
         });
 
-       
+        console.log(this.filteredArray);
+
+        console.log(this.events);
+
         this.events.forEach((event:any) => {
           if (Array.isArray(event.userId) && event.userId.length > 0) {
               event.userId.some((userId:string )=> {
@@ -321,9 +324,22 @@ export class CalendarComponent implements OnInit {
               });
           }
       });
+      this.events.some((event:any) => {
+        if (event.doctorId) {
+                if (!response.some((response:User) => response.id === event.doctorId)) {
+                  const events=event.Events.$values
+                  for (let i = 0; i < events.length; i++) {
+                    this.deleteEvent(events[i]);   
+                    event.doctorId='';
+                    event.userId=[];                                      
+                }                
+                }
+        }
+    });
       },
       error: (error) => {},
     });
+    
     
   }
 
