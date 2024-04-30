@@ -22,9 +22,7 @@ export class DoctorDescriptionComponent implements OnInit {
 
     this.dataService.getDoctor(id).subscribe((data) => {
       this.doctorId=data.id;
-      this.doctor=data
-      console.log(data);
-      
+      this.doctor=data      
     });
   }
 }

@@ -12,7 +12,7 @@
     left: 50%;
     transform: translate(-50%,-50%);
     z-index: 200;
-
+    border-radius: 10px;
 }
 .input{
     max-width: 377px;
@@ -27,7 +27,7 @@
     color: red;
     text-align: center;
 }
-.form{
+.login-form{
     max-width: 377px;
     width: 100%;
     display: flex;
@@ -44,6 +44,9 @@
     color:#fff;
     border:none;
     border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .title{
     color:#18A4E1;

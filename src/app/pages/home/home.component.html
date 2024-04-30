@@ -1,34 +1,48 @@
 <div class="wraper">
-<div *ngFor="let category of allDoctors" class="card-wraper">
+  <div *ngFor="let category of allDoctors" class="card-wraper">
     <div class="category-card">
-        <div class="views-wrap">
-            <div class="views">
-                <img src="../../../assets/images/ic_baseline-remove-red-eye.png"/>
-                <p>129 371</p>
-            </div>
-            <div>
-                <img  src="../../../assets/images/pin-svgrepo-com 1.png"/>
-            </div>
+      <div class="views-wrap">
+        <div class="views">
+          <img src="../../../assets/images/ic_baseline-remove-red-eye.png" />
+          <p>129 371</p>
         </div>
-        <div class="details-wraper" (click)="clickOnCard(category.id)">
-            <div>
-                <img class="profileimage" [src]="url+category.profileImage"/>
-            </div>
-            <h2 i18n class="name-title">{{category.name}} {{category.lastName}}</h2>
-            <p i18n class="category-title">{{category.category}}</p>
-            <div class="stars">
-                <img src="../../../assets/images/material-symbols_star-rounded.png"/>
-                <img src="../../../assets/images/material-symbols_star-rounded.png"/>
-                <img src="../../../assets/images/material-symbols_star-rounded.png"/>
-                <img src="../../../assets/images/material-symbols_star-rounded.png"/>
-            </div>
-            <div class="button">
-                <p i18n>{{'book_visit' | translate}}</p>
-                <div style="margin-top: 3px;">
-                    <img src="../../../assets/images/material-symbols_arrow-back-ios-rounded.png"/>
-                </div>
-            </div>
+        <div>
+          <img
+            *ngIf="category.pinned"
+            (click)="unpinCard(category.id)"
+            src="../../../assets/images/pin-svgrepo-com 1.png"
+          />
+          <img
+            *ngIf="!category.pinned"
+            (click)="pinCard(category.id)"
+            src="../../../assets/images/pin.png"
+            alt=""
+          />
         </div>
+      </div>
+      <div class="details-wraper" (click)="clickOnCard(category.id)">
+        <div>
+          <img class="profileimage" [src]="url + category.profileImage" />
+        </div>
+        <h2  class="name-title" translate [translateParams]="{ 'name': category.name + ' ' + category.lastName }">
+          doctorDescription.name
+        </h2>
+        <p  class="category-title" translate [translateParams]="{ 'category': category.category}">doctorDescription.category</p>
+        <div class="stars">
+          <img src="../../../assets/images/material-symbols_star-rounded.png" />
+          <img src="../../../assets/images/material-symbols_star-rounded.png" />
+          <img src="../../../assets/images/material-symbols_star-rounded.png" />
+          <img src="../../../assets/images/material-symbols_star-rounded.png" />
+        </div>
+        <div class="button">
+          <p>{{ "book_visit" | translate }}</p>
+          <div style="margin-top: 3px">
+            <img
+              src="../../../assets/images/material-symbols_arrow-back-ios-rounded.png"
+            />
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 </div>

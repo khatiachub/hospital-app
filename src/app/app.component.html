@@ -1,17 +1,17 @@
-<app-header ></app-header>
+<app-header></app-header>
 <div *ngIf="open">
-    <app-login *ngIf="open"></app-login>
+  <app-login *ngIf="open"></app-login>
 </div>
 <div *ngIf="open" (click)="removeLoginForm()" class="overlay"></div>
 <div class="wraper">
-    <div *ngIf="showCategories" class="categories-wraper">
-        <app-categories *ngIf="showCategories"></app-categories>
-    </div>
-    <div *ngIf="showCategories" class="outlet-wraper">
-        <router-outlet ></router-outlet>
-    </div>
+  <div *ngIf="showCategories" class="categories-wraper">
+    <app-categories *ngIf="showCategories"></app-categories>
+  </div>
+  <div *ngIf="showCategories" class="outlet-wraper">
+    <router-outlet></router-outlet>
+  </div>
 </div>
 <div class="outlet">
-    <router-outlet *ngIf="!showCategories"></router-outlet>
+  <router-outlet *ngIf="!showCategories"></router-outlet>
 </div>
 <app-footer></app-footer>

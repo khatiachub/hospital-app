@@ -1,8 +1,12 @@
-<p class="book-title" *ngIf="editUser&&role==='USER'">ჩემი ჯავშანი ({{SumUserBooks}})</p>
-<p class="book-title" *ngIf="editUser&&role==='DOCTOR'">ჯავშნები ({{SumDoctorBooks}})</p>
+<p class="book-title" *ngIf="editUser && role === 'USER'">
+  {{ "myBooking" | translate }} ({{ SumUserBooks }})
+</p>
+<p class="book-title" *ngIf="editUser && role === 'DOCTOR'">
+  {{ "books" | translate }} ({{ SumDoctorBooks }})
+</p>
 
-<div class="buttons">
-  <h3>{{ viewDate | date: 'yyyy' }}</h3>
+<div class="buttons" [ngStyle]="{'max-width':isAdmin?'500px':'170px'}">
+  <h3>{{ viewDate | date : "yyyy" }}</h3>
   <div class="col-md-4">
     <div class="btn-group">
       <div
@@ -11,12 +15,12 @@
         [view]="view"
         [(viewDate)]="viewDate"
       >
-       <div class="image">
-        <img src="../../../assets/images/Vector.png" alt="">
-       </div>
+        <div class="image">
+          <img src="../../../assets/images/Vector.png" alt="" />
+        </div>
       </div>
       <div class="month-button">
-        <h3>{{ viewDate | date: 'MMMM' }}</h3>
+        <h3>{{ viewDate | date : "MMMM" }}</h3>
       </div>
       <div
         class="btn-primary"
@@ -25,112 +29,288 @@
         [(viewDate)]="viewDate"
       >
         <div class="image">
-          <img src="../../../assets/images/material-symbols_arrow-back-ios-rounded (2).png" alt="">
+          <img
+            src="../../../assets/images/material-symbols_arrow-back-ios-rounded (2).png"
+            alt=""
+          />
         </div>
       </div>
     </div>
   </div>
+  <button *ngIf="isAdmin" class="button" (click)="checkHolidays()">
+    {{'holidays' | translate}}
+  </button>
 </div>
 
-
-<ng-template #weekView let-segment="segment" let-locale="locale" let-isTimeLabel="isTimeLabel" >
-  <div   [class.cal-time]="isTimeLabel" class="cell" [style.background-color]="isWeekend(segment.date) ? '#FFFFF5':''">
-    {{isTimeLabel? customDateFormatter.weekViewHour({ date: segment.date, locale: locale }):'' }}
+<ng-template
+  #weekView
+  let-segment="segment"
+  let-locale="locale"
+  let-isTimeLabel="isTimeLabel"
+>
+  <div
+    [class.cal-time]="isTimeLabel"
+    class="cell"
+    [style.background-color]="
+      isWeekend(segment.date)
+        ? '#FFFFF5'
+        : isSelected(segment.date)
+        ? '#FFFFF5'
+        : ''
+    "
+  >
+    {{
+      isTimeLabel
+        ? customDateFormatter.weekViewHour({
+            date: segment.date,
+            locale: locale
+          })
+        : ""
+    }}
   </div>
 </ng-template>
 
 <div [ngSwitch]="view" class="calendar-wraper">
-  <mwl-calendar-week-view 
+  <div class="btn-wrapper">
+    <div
+      class="btn-primary"
+      mwlCalendarPreviousView
+      [view]="view"
+      [(viewDate)]="viewDate"
+    >
+      <div class="cal-button">
+        <img src="../../../assets/images/Vector.png" alt="" />
+      </div>
+    </div>
+    <div
+      class="btn-primary"
+      mwlCalendarNextView
+      [view]="view"
+      [(viewDate)]="viewDate"
+    >
+      <div class="cal-button">
+        <img
+          src="../../../assets/images/material-symbols_arrow-back-ios-rounded (2).png"
+          alt=""
+        />
+      </div>
+    </div>
+  </div>
+
+  <ng-template #eventTemplate let-weekEvent="weekEvent" let-locale="locale">
+    <div
+      [ngStyle]="{
+        'background-color':
+        weekEvent.event.isBooked && !this.role && id !== weekEvent.userId
+            ? '#FF93A6'
+            : '#DAFAEE'
+      }"
+      class="cal-event-custom"
+      (click)="handleEvent(weekEvent.event)"
+    >
+      <p
+        [ngStyle]="{
+          color:
+            weekEvent.event.isBooked && !this.role && id !== weekEvent.userId
+              ? 'red'
+              : '#3ACF99'
+        }"
+      >
+        {{ weekEvent.event.title }}
+      </p>
+      <div *ngIf="isAdmin && userType || editUser && isUserEntered">
+        <img
+          style="width: 31px; height: 31px; border-radius: 50%; margin-top: 5px"
+          [src]="weekEvent.event?.image&&url+weekEvent.event?.image"
+          alt="doctor"
+        />
+      </div>
+    </div>
+  </ng-template>
+
+  <mwl-calendar-week-view
     *ngSwitchCase="CalendarView.Week"
     [viewDate]="viewDate"
     [events]="events"
     [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    [hourSegments]="1" 
+    [hourSegments]="1"
     [hourSegmentHeight]="60"
     [dayStartHour]="9"
-    [dayEndHour]="17" 
+    [dayEndHour]="17"
     [hourDuration]="60"
     [hourSegmentTemplate]="weekView"
-    >
+    [eventTemplate]="eventTemplate"
+    (dayHeaderClicked)="dayClicked($event.day)"
+  >
   </mwl-calendar-week-view>
 
-
-
   <form *ngIf="OpenDateInput" class="form add-form">
-     <label>აირჩიეთ ადგილების რაოდენობა</label>
-     <input class="input" type="datetime-local" [(ngModel)]="dateStart" name="start" (change)="handleChange($event)"/>
-     <button class="add-button"  (click)="addChildEvent()">+ დამატება</button>
-     <button class="add-button"  (click)="addEvent()">გაგზავნა</button>
+    <label>{{ "choosequantity" | translate }}</label>
+    <input
+      class="input"
+      type="datetime-local"
+      [(ngModel)]="dateStart"
+      name="start"
+      (change)="handleChange($event)"
+    />
+    <button class="add-button" (click)="addChildEvent()">
+      {{ "addtimes" | translate }}
+    </button>
+    <button class="add-button" (click)="addEvent()">
+      {{ "send" | translate }}
+    </button>
   </form>
   <div class="buttons-wraper">
-  <button class="add-button" *ngIf="isAdmin" (click)="openWindow()">+ დამატება</button>
-  <button class="edit-button"  (click)="editEnabled()">
-    <img src="../../../assets/images/edit-svgrepo-com 3.png" alt="">
-    <p>რედაქტირება</p>
-  </button>
-  <button class="delete-button"  (click)="deleteEnabled()">
-    <img src="../../../assets/images/delete-file-svgrepo-com 3.png" alt="">
-    <p>წაშლა</p>
-  </button>
+    <button
+      class="add-button"
+      style="margin-right: 20px"
+      *ngIf="isAdmin && !userType && id"
+      (click)="openWindow()"
+    >
+      {{ "addtimes" | translate }}
+    </button>
+    <button *ngIf="id" class="edit-button" (click)="editEnabled()">
+      <img src="../../../assets/images/edit-svgrepo-com 3.png" alt="" />
+      <p>{{ "edit" | translate }}</p>
+    </button>
+    <button *ngIf="id" class="delete-button" (click)="deleteEnabled()">
+      <img src="../../../assets/images/delete-file-svgrepo-com 3.png" alt="" />
+      <p>{{ "delete" | translate }}</p>
+    </button>
   </div>
 
-  <form *ngIf="Editable||Deletable"  class="form">
+  <form *ngIf="Editable || Deletable" class="form">
     <div *ngFor="let book of UserBooks">
-      <div *ngIf="editUser&&role==='USER'">
-        <button class="button" *ngIf="Editable" (click)="selectBook(book)">{{book.start}}</button>
-        <button class="button" *ngIf="Deletable" (click)="deleteEvent(book)">{{book.start}}</button>
+      <div *ngIf="(editUser && role === 'USER') || (isAdmin && userType)">
+        <button class="button" *ngIf="Editable" (click)="selectBook(book)">
+          {{ book.start }}
+        </button>
+        <button class="button" *ngIf="Deletable" (click)="removeEvent(book)">
+          {{ book.start }}
+        </button>
       </div>
-      <div *ngIf="isUserEntered&&!editUser||role!=='USER'&&!editUser">
-        <button class="button" *ngIf="Editable" (click)="selectBook(book)">{{book.name}} {{book.lastName}} {{book.start}}</button>
-        <button class="button" *ngIf="Deletable" (click)="deleteEvent(book)">{{book.name}} {{book.lastName}} {{book.start}}</button>
+      <div *ngIf="isUserEntered && !editUser&&!isAdmin&&!isDoctorEntered">
+        <button class="button" *ngIf="Editable" (click)="selectBook(book)">
+          {{ book.name }} {{ book.lastName }} {{ book.start }}
+        </button>
+        <button class="button" *ngIf="Deletable" (click)="removeEvent(book)">
+          {{ book.name }} {{ book.lastName }} {{ book.start }}
+        </button>
       </div>
     </div>
     <div *ngFor="let book of DoctorBooks">
-      <div *ngIf="isAdmin||role==='DOCTOR'||isDoctorEntered&&role!=='USER'&&!isUserEntered">
-        <button class="button" *ngIf="Editable" (click)="selectBook(book)">{{book.name}} {{book.lastName}}  {{book.start}}</button>
-        <button class="button" *ngIf="Deletable" (click)="deleteEvent(book)">{{book.name}} {{book.lastName}}  {{book.start}}</button>
-      </div>    
+      <div *ngIf="(isAdmin && !userType) || isDoctorEntered">
+        <button class="button" *ngIf="Editable" (click)="selectBook(book)">
+          {{ book.name }} {{ book.lastName }} {{ book.start }}
+        </button>
+        <button class="button" *ngIf="Deletable" (click)="removeEvent(book)">
+          {{ book.name }} {{ book.lastName }} {{ book.start }}
+        </button>
+      </div>
     </div>
-    <p style="color:red" *ngIf="UserBooks.length===0&&DoctorBooks.length===0">ჯავშნები არ არის</p>
+    <p
+      style="color: red"
+      *ngIf="UserBooks.length === 0 && DoctorBooks.length === 0"
+    >
+      {{ "nobooks" | translate }}
+    </p>
   </form>
-  <form *ngIf="ShowBookDescription"  class="form">
-    <input  class="input" type="text" [(ngModel)]="editdescription" name="description" (change)="handleChange($event)"/>
-    <button  class="add-button" (click)="editDescription()">შენახვა</button>
+  <form *ngIf="ShowBookDescription" class="form">
+    <input
+      class="input"
+      type="text"
+      [(ngModel)]="editdescription"
+      name="description"
+      (change)="handleChange($event)"
+    />
+    <button class="add-button" (click)="editDescription()">
+      {{ "save" | translate }}
+    </button>
   </form>
-  
+
   <form *ngIf="SelectEvent" class="form">
-    <p style="color: red; font-size: 20px;" *ngIf="SelectEvent">{{SelectEvent}}</p>
+    <p style="color: red; font-size: 20px" *ngIf="SelectEvent">
+      {{ SelectEvent }}
+    </p>
   </form>
-  <form class="form" *ngIf="filteredEvents.length>0"> 
-    <div style="display: flex; width: 100%;" *ngFor="let event of filteredEvents">
+  <form class="form" *ngIf="filteredEvents.length > 0">
+    <div
+      style="display: flex; width: 100%"
+      *ngFor="let event of filteredEvents"
+    >
       <div class="button button-details">
-        <p>{{event.name}} </p>
-        <p>{{event.lastName}}</p>  
-        <p>{{event.start}}</p>  
-        <p>{{event.description}}</p>
+        <p class="book-desc">{{ event.name }}</p>
+        <p class="book-desc">{{ event.lastName }}</p>
+        <p class="book-desc">{{ event.start }}</p>
+        <p class="book-desc">{{ event.description }}</p>
       </div>
     </div>
   </form>
-  <form class="form" *ngIf="bookDate.length>0">
+  <form class="form" *ngIf="bookDate.length > 0">
     <div *ngFor="let date of bookDate">
-      <button class="button">{{date.start.split("T")[1].split(":").slice(0, 2).join(":")}}</button>
+      <button class="button">
+        {{ date.start.split("T")[1].split(":").slice(0, 2).join(":") }}
+      </button>
     </div>
   </form>
 
   <form *ngIf="isOpen" class="form">
-   <div class="timebuttons">
-    <div *ngFor="let dates of PlaceEvents">
-      <button class="button" [disabled]="dates.isBooked" (click)="handleDateClick(dates.calendarModelId,dates.id)">{{dates.start.split("T")[1].split(":").slice(0, 2).join(":")}}</button>
+    <div class="timebuttons">
+      <div *ngFor="let dates of PlaceEvents">
+        <button
+          class="button"
+          [disabled]="dates.isBooked"
+          (click)="handleDateClick(dates.calendarModelId, dates.id)"
+        >
+          {{ dates.start.split("T")[1].split(":").slice(0, 2).join(":") }}
+        </button>
+      </div>
     </div>
-   </div>
-    <label>გსურთ ვიზიტის დაჯავნშნა ?</label>
-    <label>შეგიძლიათ მიუთუთოთ თქვენი პორბლემა</label>
-    <input class="input" type="text" [(ngModel)]="description" name="description" (change)="handleChange($event)"/>
-    <button class="add-button" (click)="editEvent()">დაჯავშნა</button>
+    <div class="book-form">
+      <label class="labelspan label">{{ "wannabook" | translate }}</label>
+      <label class="label">{{ "describeproblem" | translate }}</label>
+      <div class="book-input-form">
+        <input
+          class="input"
+          type="text"
+          [(ngModel)]="description"
+          name="description"
+          (change)="handleChange($event)"
+        />
+        <button class="add-button" (click)="editEvent()">
+          {{ "bookvisit" | translate }}
+        </button>
+      </div>
+    </div>
   </form>
   <form *ngIf="userEntered" class="form">
-    <p>დასაჯავშნად გთხოვთ გაიაროთ ავტორიზაცია ან რეგისტრაცია.</p>
+    <p>{{ "loginToBook" | translate }}</p>
   </form>
-  <div *ngIf="userEntered||isOpen||Editable||Deletable||SelectEvent||filteredEvents.length>0||bookDate.length>0||ShowBookDescription||OpenDateInput" class="overlay" (click)="removeForm()"></div>
+  <form *ngIf="isHoliday && isAdmin" class="form">
+    <div class="holidays-wraper" *ngFor="let day of selectedDates">
+      <button class="button">{{ day.selectedDate.split("T")[0] }}</button>
+      <button class="button" (click)="deleteSelectedDay(day.id)">
+        {{ "delete" | translate }}
+      </button>
+    </div>
+    <p style="color: red" *ngIf="selectedDates.length === 0">
+      {{ "noHolidays" | translate }}
+    </p>
+  </form>
+  <div
+    *ngIf="
+      isHoliday ||
+      userEntered ||
+      isOpen ||
+      Editable ||
+      Deletable ||
+      SelectEvent ||
+      filteredEvents.length > 0 ||
+      bookDate.length > 0 ||
+      ShowBookDescription ||
+      OpenDateInput
+    "
+    class="overlay"
+    (click)="removeForm()"
+  ></div>
 </div>

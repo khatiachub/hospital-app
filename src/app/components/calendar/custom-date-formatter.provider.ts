@@ -19,6 +19,7 @@ export class CustomDateFormatter extends CalendarDateFormatter {
     const endTime = formatDate(endDate, 'HH:mm', resolvedLocale);
     return `${startTime} - ${endTime}`;
   }
+  
   override weekViewColumnHeader({ date,locale}: DateFormatterParams): string {
     const translatedDaysOfWeek = [
       this.translate.instant('sun'),

@@ -4,87 +4,174 @@
     </caption> -->
     <thead>
       <tr>
-        <th i18n *ngIf="params==='რეგისტრაცია'||params==='ექიმები'" scope="col">{{'name' | translate}}</th>
-        <th i18n *ngIf="params==='რეგისტრაცია'">{{'email' | translate}}</th>
-        <th i18n *ngIf="params==='ექიმები'" scope="col">{{'photo' | translate}}</th>
-        <th i18n *ngIf="params==='ექიმები'" scope="col">{{'category' | translate}}</th>
-        <th i18n *ngIf="params==='კატეგორიები'" scope="col">{{'categories' | translate}}</th>
-        <th i18n *ngIf="params==='ექიმები'" scope="col">{{'rates' | translate}}</th>
+        <th
+          i18n
+          *ngIf="params === 'რეგისტრაცია' || params === 'ექიმები'"
+          scope="col"
+        >
+          {{ "name" | translate }}
+        </th>
+        <th i18n *ngIf="params === 'რეგისტრაცია'">{{ "email" | translate }}</th>
+        <th i18n *ngIf="params === 'ექიმები'" scope="col">
+          {{ "photo" | translate }}
+        </th>
+        <th i18n *ngIf="params === 'ექიმები'" scope="col">
+          {{ "category" | translate }}
+        </th>
+        <th i18n *ngIf="params === 'კატეგორიები'" scope="col">
+          {{ "categories" | translate }}
+        </th>
+        <th i18n *ngIf="params === 'ექიმები'" scope="col">
+          {{ "rates" | translate }}
+        </th>
         <th></th>
       </tr>
     </thead>
 
-    <tbody  *ngIf="params==='რეგისტრაცია'||params==='ექიმები'" >
+    <tbody *ngIf="params === 'რეგისტრაცია' || params === 'ექიმები'">
       <tr *ngFor="let user of users">
-        <td i18n *ngIf="params==='რეგისტრაცია'||params==='ექიმები'" scope="row">{{user.name}} {{user.lastName}}</td>
-        <td *ngIf="params==='რეგისტრაცია'">{{user.email}}</td>
-        <td *ngIf="params==='ექიმები'"><img class="profileimage" [src]="url+user.profileImage"/></td>
-        <td i18n *ngIf="params==='ექიმები'">{{user.category}}</td>
-        <td i18n *ngIf="params==='ექიმები'">
+        <td
+          i18n
+          *ngIf="params === 'რეგისტრაცია' || params === 'ექიმები'"
+          scope="row"
+          translate [translateParams]="{ 'name': user.name + ' ' + user.lastName }"
+        >
+        doctorDescription.name
+        </td>
+        <td *ngIf="params === 'რეგისტრაცია'">{{ user.email }}</td>
+        <td *ngIf="params === 'ექიმები'">
+          <img class="profileimage" [src]="url + user.profileImage" />
+        </td>
+        <td i18n *ngIf="params === 'ექიმები'"
+        translate [translateParams]="{ 'category': user.category }"
+        >
+        doctorDescription.category
+      </td>
+        <td i18n *ngIf="params === 'ექიმები'">
           <div class="stars">
-            <img src="../../../assets/images/material-symbols_star-rounded.png"/>
-            <img src="../../../assets/images/material-symbols_star-rounded.png"/>
-            <img src="../../../assets/images/material-symbols_star-rounded.png"/>
-            <img src="../../../assets/images/material-symbols_star-rounded.png"/>
-        </div>
+            <img
+              src="../../../assets/images/material-symbols_star-rounded.png"
+            />
+            <img
+              src="../../../assets/images/material-symbols_star-rounded.png"
+            />
+            <img
+              src="../../../assets/images/material-symbols_star-rounded.png"
+            />
+            <img
+              src="../../../assets/images/material-symbols_star-rounded.png"
+            />
+          </div>
         </td>
 
         <td class="buttons">
-          <button *ngIf="params==='კატეგორიები'" (click)="showDeleteWindow(user.id)" class="delete-button button">
-            <img src="../../../assets/images/delete-svgrepo-com 10.png"/>
+          <button
+            *ngIf="params === 'კატეგორიები'"
+            (click)="showDeleteWindow(user.id)"
+            class="delete-button button"
+          >
+            <img src="../../../assets/images/delete-svgrepo-com 10.png" />
           </button>
-            <button (click)="showDeleteWindow(user.id)" class="delete-button button">
-              <img src="../../../assets/images/delete-svgrepo-com 10.png"/>
-            </button>
-            <button (click)="editUser(user.id)" class="edit-button button">
-              <img src="../../../assets/images/edit-svgrepo-com 8.png"/>
-            </button>
-            <button (click)="downloadFile(user.cv)" *ngIf="params==='ექიმები'" class="download-button button">
-              <img src="../../../assets/images/download (1).svg"/>
-            </button>
+          <button
+            (click)="showDeleteWindow(user.id)"
+            class="delete-button button"
+          >
+            <img src="../../../assets/images/delete-svgrepo-com 10.png" />
+          </button>
+          <button (click)="editUser(user.id)" class="edit-button button">
+            <img src="../../../assets/images/edit-svgrepo-com 8.png" />
+          </button>
+          <button
+            (click)="downloadFile(user.cv)"
+            *ngIf="params === 'ექიმები'"
+            class="download-button button"
+          >
+            <img src="../../../assets/images/download (1).svg" />
+          </button>
         </td>
       </tr>
     </tbody>
 
-    <tbody *ngIf="params==='კატეგორიები'" >
+    <tbody *ngIf="params === 'კატეგორიები'">
       <tr *ngFor="let cat of categories">
-        <td i18n >{{cat.category}}</td>
+        <td i18n>{{cat!.category | translate}}</td>
         <td class="buttons">
-            <button (click)="deleteCategory(cat.id,cat.category)" class="delete-button button">
-              <img src="../../../assets/images/delete-svgrepo-com 10.png"/>
-            </button>
-            <button (click)="showEditCategory(cat.category,cat.id)" class="edit-button button">
-              <img src="../../../assets/images/edit-svgrepo-com 8.png"/>
-            </button>
+          <button
+            (click)="deleteCategory(cat.id, cat.category)"
+            class="delete-button button"
+          >
+            <img src="../../../assets/images/delete-svgrepo-com 10.png" />
+          </button>
+          <button
+            (click)="showEditCategory(cat.category, cat.id)"
+            class="edit-button button"
+          >
+            <img src="../../../assets/images/edit-svgrepo-com 8.png" />
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
-  <button i18n *ngIf="params==='კატეგორიები'" (click)="showAddCategory()" class="category-button">
-    {{'add' | translate}}
+  <button
+    i18n
+    *ngIf="params === 'კატეგორიები'"
+    (click)="showAddCategory()"
+    class="category-button"
+  >
+    {{ "add" | translate }}
   </button>
   <div *ngIf="isCategoryUsed" class="window-wraper">
-    <p>{{isCategoryUsed}}</p>
+    <p>{{ isCategoryUsed }}</p>
   </div>
-  <div *ngIf="params==='კატეგორიები'&&AddCategory||EditCategory" class="window-wraper">
-    <input class="input"  type="text" [(ngModel)]="inputValue" (change)="handleChange($event)">
-    <button i18n class="category-button" *ngIf="AddCategory&&!EditCategory" (click)="addCategory()">{{'add' | translate}}</button>
-    <button i18n class="category-button" *ngIf="EditCategory&&!AddCategory" (click)="editCategory()">{{'reset' | translate}}</button>
+  <div
+    *ngIf="(params === 'კატეგორიები' && AddCategory) || EditCategory"
+    class="window-wraper"
+  >
+    <input
+      class="input"
+      type="text"
+      [(ngModel)]="inputValue"
+      (change)="handleChange($event)"
+    />
+    <button
+      i18n
+      class="category-button"
+      *ngIf="AddCategory && !EditCategory"
+      (click)="addCategory()"
+    >
+      {{ "add" | translate }}
+    </button>
+    <button
+      i18n
+      class="category-button"
+      *ngIf="EditCategory && !AddCategory"
+      (click)="editCategory()"
+    >
+      {{ "reset" | translate }}
+    </button>
   </div>
 
-  <div *ngIf="params==='რეგისტრაცია'">
-    <button i18n class="add-button" (click)="addUser()">{{'add' | translate}}</button>
-  <div *ngIf="isOpen" class="overlay">
-    <div *ngFor="let type of types">
-      <button i18n (click)="navigateToRegister(type)" class="register-button" >{{type}}</button>
+  <div *ngIf="params === 'რეგისტრაცია'">
+    <button i18n class="add-button" (click)="addUser()">
+      {{ "add" | translate }}
+    </button>
+    <div *ngIf="isOpen" class="overlay">
+      <div *ngFor="let type of types">
+        <button i18n (click)="navigateToRegister(type)" class="register-button">
+          {{ type }}
+        </button>
+      </div>
     </div>
-  </div>
   </div>
   <div *ngIf="isOpen" class="overlay-container" (click)="removeOverlay()"></div>
 
   <div *ngIf="delete" class="overlay">
-    <p i18n>{{'confirm' | translate}}</p>
-    <button i18n (click)="deleteUser()" class="register-button">{{'delete' | translate}}</button>
-    <button i18n (click)="removeWindow()"  class="register-button">{{'cancel' | translate}}</button>
+    <p i18n>{{ "confirm" | translate }}</p>
+    <button i18n (click)="deleteUser()" class="register-button">
+      {{ "delete" | translate }}
+    </button>
+    <button i18n (click)="removeWindow()" class="register-button">
+      {{ "cancel" | translate }}
+    </button>
   </div>
 </div>

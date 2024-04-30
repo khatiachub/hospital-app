@@ -10,7 +10,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, provideHttpClient,HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient,HTTP_INTERCEPTORS, HttpClient, HttpBackend } from '@angular/common/http';
 import { AuthInterceptor } from './core/auth-inspector';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { DoctorDescriptionComponent } from './pages/doctor-description/doctor-description.component';
@@ -18,7 +18,7 @@ import { AdminPanelComponent } from './pages/admin-panel/admin-panel.component';
 import { UsersGridComponent } from './pages/users-grid/users-grid.component';
 import { EdituserprofileComponent } from './pages/edituserprofile/edituserprofile.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
-import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateService,TranslateCompiler, TranslateParser} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,12 +27,13 @@ import {CalendarDateFormatter,CalendarModule,CalendarMomentDateFormatter,DateAda
 import moment from 'moment';
 import { adapterFactory } from 'angular-calendar/date-adapters/moment';
 import { CustomDateFormatter } from './components/calendar/custom-date-formatter.provider';
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
+import {TranslateMessageFormatCompiler} from 'ngx-translate-messageformat-compiler';
+import { TranslateICUParser } from 'ngx-translate-parser-plural-select';
 export function momentAdapterFactory() {
   return adapterFactory(moment);
+}
+export function translateHttpLoaderFactory(httpBackend: HttpBackend): TranslateHttpLoader {
+  return new TranslateHttpLoader(new HttpClient(httpBackend));
 }
 
 @NgModule({
@@ -64,7 +65,17 @@ export function momentAdapterFactory() {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
-      }
+        // deps: [HttpBackend],
+        // useFactory: translateHttpLoaderFactory
+      },
+      compiler: {
+        provide: TranslateCompiler,
+        useClass: TranslateMessageFormatCompiler
+    },
+    parser: {
+      provide: TranslateParser,
+      useClass: TranslateICUParser
+    },
     }),
     BrowserAnimationsModule,
     FlatpickrModule.forRoot(),
@@ -94,8 +105,12 @@ export function momentAdapterFactory() {
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(translate: TranslateService) {
-    translate.setDefaultLang('ka'); 
-    translate.use('ka');
-  }
+  // constructor(translate: TranslateService) {
+  //   translate.setDefaultLang('ka'); 
+  //   translate.use('ka');
+  // }
  }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

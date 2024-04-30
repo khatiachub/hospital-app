@@ -5,20 +5,21 @@
 
         </div>
         <div class="details-box">
-            <h2 *ngIf="doctor.name&&doctor.lastName" i18n class="name-title">{{doctor.name}} {{doctor.lastName}}</h2>
-            <p *ngIf="doctor?.category" class="category-title">{{doctor.category}}</p>
+            <h2 *ngIf="doctor.name && doctor.lastName" class="name-title" translate [translateParams]="{ 'name': doctor.name + ' ' + doctor?.lastName }">doctorDescription.name</h2>
+            <p *ngIf="doctor?.category" class="category-title" translate [translateParams]="{ 'category': doctor!.category}">doctorDescription.category</p>
             <div class="stars">
                 <img src="../../../assets/images/material-symbols_star-rounded.png"/>
                 <img src="../../../assets/images/material-symbols_star-rounded.png"/>
                 <img src="../../../assets/images/material-symbols_star-rounded.png"/>
                 <img src="../../../assets/images/material-symbols_star-rounded.png"/>
-            </div>
+            </div> 
         </div>
     </div>
     <div class="description-box">
         <!-- <p i18n class="description-text"><span class="highlight">2017 - დღემდე</span>, ჩვენი კლინიკის გენერალური დირექტორი</p>
         <p i18n class="description-text">2002 - დღემდე, ჩვენი კომპიუტერული ტომოგრაფიის განყოფილების ხელმძღვანელი</p> -->
-        <p i18n class="description-text">{{doctor.description}}</p>
+        <p translate [translateParams]="{ 'description': doctor!.description}">doctorDescription.select</p>
+
     </div>
 </div>
 <div class="calendar-wraper">

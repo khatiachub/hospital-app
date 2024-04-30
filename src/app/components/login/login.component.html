@@ -1,38 +1,165 @@
-<div  class="container">
-    <form *ngIf="LoginEnabled&&!Code&&!SendEmail&&!EnterRecoverCode&&!EnableNewPassword&&!RecoverySuccess"  class="form" [formGroup]="form" (ngSubmit)="Login()">
-        <label i18n class="title">{{'login' | translate}}</label>
-        <input i18n-placeholder formControlName="Email" class="input" placeholder="{{'login_placeholder_email' | translate}}"/>
-        <input i18n-placeholder formControlName="Password" class="input" placeholder="{{'password' | translate}}"/>
-        <p i18n (click)="redirectToPasswordReset()" class="text">{{'password_reset' | translate}}</p>
-        <button i18n type="submit" class="button">{{'login' | translate}}</button>
-    </form>
-    <div *ngIf="Code&&!SendEmail&&!EnterRecoverCode&&!EnableNewPassword&&!RecoverySuccess" class="form">
-        <input i18n-placeholder class="input" [(ngModel)]="enterCode" (change)="handleChange($event)" placeholder="{{'enter_code' | translate}}"/>
-        <p i18n class="errormessage" *ngIf="errorCode">{{'error_message' | translate}}</p>
-        <button i18n (click)="sendCode()" class="button">{{'enter_code' | translate}}</button>
-        <button i18n  (click)="sendCodeAgain()" [class.disabled-button]="!enableGenerateButton" [disabled]="!enableGenerateButton" class="button">{{'send_code_again' | translate}}</button>
-        <p i18n *ngIf="remainingTime!==0 && enabled; else expired">{{'send_code' | translate}} {{remainingTime}} {{'second' | translate}}</p>
-        <ng-template #expired>{{Time}}</ng-template>
-    </div>
+<div class="container">
+  <form
+    *ngIf="
+      LoginEnabled &&
+      !Code &&
+      !SendEmail &&
+      !EnterRecoverCode &&
+      !EnableNewPassword &&
+      !RecoverySuccess
+    "
+    class="login-form"
+    [formGroup]="form"
+    (ngSubmit)="Login()"
+  >
+    <label i18n class="title">{{ "login" | translate }}</label>
+    <input
+      i18n-placeholder
+      formControlName="Email"
+      class="input"
+      placeholder="{{ 'login_placeholder_email' | translate }}"
+    />
+    <input
+      i18n-placeholder
+      formControlName="Password"
+      class="input"
+      placeholder="{{ 'password' | translate }}"
+    />
+    <p i18n (click)="redirectToPasswordReset()" class="text">
+      {{ "password_reset" | translate }}
+    </p>
+    <button i18n type="submit" class="button">{{ "login" | translate }}</button>
+  </form>
+  <div
+    *ngIf="
+      Code &&
+      !SendEmail &&
+      !EnterRecoverCode &&
+      !EnableNewPassword &&
+      !RecoverySuccess
+    "
+    class="login-form"
+  >
+    <input
+      i18n-placeholder
+      class="input"
+      [(ngModel)]="enterCode"
+      (change)="handleChange($event)"
+      placeholder="{{ 'enter_code' | translate }}"
+    />
+    <p i18n class="errormessage" *ngIf="errorCode">
+      {{ "error_message" | translate }}
+    </p>
+    <button i18n (click)="sendCode()" class="button">
+      {{ "enter_code" | translate }}
+    </button>
+    <button
+      i18n
+      (click)="sendCodeAgain()"
+      [class.disabled-button]="!enableGenerateButton"
+      [disabled]="!enableGenerateButton"
+      class="button"
+    >
+      {{ "send_code_again" | translate }}
+    </button>
+    <p i18n *ngIf="remainingTime !== 0 && enabled; else expired">
+      {{ "send_code" | translate }} {{ remainingTime }}
+      {{ "second" | translate }}
+    </p>
+    <ng-template #expired>{{ Time }}</ng-template>
+  </div>
 
-    <div class="form" *ngIf="!Code&&SendEmail&&!RecoverySuccess">
-        <input i18n-placeholder class="input" [(ngModel)]="enterEmail&&enterEmail.enterEmail" name="enterEmail" placeholder="{{'enter_email' | translate}}" (change)="handleInputChange($event)"/>
-        <button  class="button" (click)="sendEmail()">{{'send_email' | translate}}</button>
-    </div>
-    <div class="form" *ngIf="!Code&&!SendEmail&&EnterRecoverCode&&!RecoverySuccess">
-        <input i18n-placeholder class="input" [(ngModel)]="enterEmail.EnterRecoverCode" placeholder="{{'enter_code' | translate}}" name="enterRecoverCode" (change)="handleInputChange($event)"/>
-        <p i18n class="errormessage" *ngIf="errorCode">{{'error_message' | translate}}</p>
-        <button  i18n (click)="sendResetCodeAgain()" [class.disabled-button]="!enableGenerateButton" [disabled]="!enableGenerateButton" class="button">{{'send_code_again' | translate}}</button>
-        <p i18n *ngIf="remainingTime!==0 && enabled; else expired">{{'send_code' | translate}} {{remainingTime}} {{'second' | translate}}</p>
-        <ng-template #expired>{{Time}}</ng-template>
-        <button  class="button" (click)="sendResetCode()">{{'send_code' | translate}}</button>
-    </div>
-    <div class="form" *ngIf="!Code&&!SendEmail&&!EnterRecoverCode&&EnableNewPassword&&!RecoverySuccess">
-        <input i18n-placeholder class="input" [(ngModel)]="enterEmail.newPassword" placeholder="{{'enter_password' | translate}}" name="newPassword" (change)="handleInputChange($event)"/>
-        <input i18n-placeholder class="input" [(ngModel)]="enterEmail.confirmPassword" placeholder="{{'repeat_password' | translate}}" name="confirmPassword" (change)="handleInputChange($event)"/>
-        <p style="color:red" *ngIf="matchError">{{'matchError' | translate}}</p>
-        <p style="color:red" *ngIf="validateError">{{'validateError' | translate}}</p>
-        <button i18n class="button" (click)="resetPassword()">{{'reset' | translate}}</button>
-    </div>
-    <p i18n class="success-message" *ngIf="!Code&&!SendEmail&&!EnterRecoverCode&&!EnableNewPassword&&RecoverySuccess">{{'success_message' | translate}}</p>
+  <div class="login-form" *ngIf="!Code && SendEmail && !RecoverySuccess">
+    <input
+      i18n-placeholder
+      class="input"
+      [(ngModel)]="enterEmail && enterEmail.enterEmail"
+      name="enterEmail"
+      placeholder="{{ 'enter_email' | translate }}"
+      (change)="handleInputChange($event)"
+    />
+    <button class="button" (click)="sendEmail()">
+      {{ "send_email" | translate }}
+    </button>
+  </div>
+  <div
+    class="login-form"
+    *ngIf="!Code && !SendEmail && EnterRecoverCode && !RecoverySuccess"
+  >
+    <input
+      i18n-placeholder
+      class="input"
+      [(ngModel)]="enterEmail.EnterRecoverCode"
+      placeholder="{{ 'enter_code' | translate }}"
+      name="enterRecoverCode"
+      (change)="handleInputChange($event)"
+    />
+    <p i18n class="errormessage" *ngIf="errorCode">
+      {{ "error_message" | translate }}
+    </p>
+    <button
+      i18n
+      (click)="sendResetCodeAgain()"
+      [class.disabled-button]="!enableGenerateButton"
+      [disabled]="!enableGenerateButton"
+      class="button"
+    >
+      {{ "send_code_again" | translate }}
+    </button>
+    <p i18n *ngIf="remainingTime !== 0 && enabled; else expired">
+      {{ "send_code" | translate }} {{ remainingTime }}
+      {{ "second" | translate }}
+    </p>
+    <ng-template #expired>{{ Time }}</ng-template>
+    <button class="button" (click)="sendResetCode()">
+      {{ "send_code" | translate }}
+    </button>
+  </div>
+  <div
+    class="login-form"
+    *ngIf="
+      !Code &&
+      !SendEmail &&
+      !EnterRecoverCode &&
+      EnableNewPassword &&
+      !RecoverySuccess
+    "
+  >
+    <input
+      i18n-placeholder
+      class="input"
+      [(ngModel)]="enterEmail.newPassword"
+      placeholder="{{ 'enter_password' | translate }}"
+      name="newPassword"
+      (change)="handleInputChange($event)"
+    />
+    <input
+      i18n-placeholder
+      class="input"
+      [(ngModel)]="enterEmail.confirmPassword"
+      placeholder="{{ 'repeat_password' | translate }}"
+      name="confirmPassword"
+      (change)="handleInputChange($event)"
+    />
+    <p style="color: red" *ngIf="matchError">{{ "matchError" | translate }}</p>
+    <p style="color: red" *ngIf="validateError">
+      {{ "validateError" | translate }}
+    </p>
+    <button i18n class="button" (click)="resetPassword()">
+      {{ "reset" | translate }}
+    </button>
+  </div>
+  <p
+    i18n
+    class="success-message"
+    *ngIf="
+      !Code &&
+      !SendEmail &&
+      !EnterRecoverCode &&
+      !EnableNewPassword &&
+      RecoverySuccess
+    "
+  >
+    {{ "success_message" | translate }}
+  </p>
 </div>

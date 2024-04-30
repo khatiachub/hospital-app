@@ -6,12 +6,12 @@
     <nav class="navigation">
         <div class="nav-border-div">
         <a  class="nav-link" routerLink="/home">{{'home' | translate}}</a>
-        <a  class="nav-link" routerLink="/#">{{'clinics' | translate}}</a>
-        <a  class="nav-link" routerLink="/#">{{'annotations' | translate}}</a>
-        <a  class="nav-link" routerLink="/#">{{'offers' | translate}}</a>
-        <a  class="nav-link" routerLink="/#">{{'services' | translate}}</a>
-        <a  class="nav-link" routerLink="/#">{{'medications' | translate}}</a>
-        <a  class="nav-link" routerLink="/#">{{'contact' | translate}}</a> 
+        <a  class="nav-link" routerLink="/home">{{'clinics' | translate}}</a>
+        <a  class="nav-link" routerLink="/home">{{'annotations' | translate}}</a>
+        <a  class="nav-link" routerLink="/home">{{'offers' | translate}}</a>
+        <a  class="nav-link" routerLink="/home">{{'services' | translate}}</a>
+        <a  class="nav-link" routerLink="/home">{{'medications' | translate}}</a>
+        <a  class="nav-link" routerLink="/home">{{'contact' | translate}}</a> 
         </div>
         <div [ngStyle]="{ 'justify-content': isAuthenticated ? 'space-between' : 'center', 'padding-right': isAuthenticated ? '30px' : '20px','padding-left': isAuthenticated ? '0px' : '20px' }" (click)="goToProfile(user.id)" class="nav-auth-button" *ngIf="user && !admin;">
             <img *ngIf="user.profileImage" class="profileimage" [src]="url+user.profileImage"/>
@@ -52,10 +52,15 @@
         </div>
         
         <input  [(ngModel)]="names" name="name" (change)="handleChange($event)" class="search-input" placeholder="{{'search_placeholder_name' | translate}}"/>
-        <input  [(ngModel)]="SearchByCategory" name="category" (change)="handleChange($event)" class="search-input" placeholder="{{'search_placeholder_category' | translate}}"/>
+        <input  [(ngModel)]="category" name="category" (change)="handleChange($event)" class="search-input" placeholder="{{'search_placeholder_category' | translate}}"/>
         <div (click)="handleClick()" class="image-wraper img-div">
             <img src="../../../assets/images/ri_search-line.png"/>
         </div>
+    </div>
+</div>
+<div class="overlay" *ngIf="setOverlay" (click)="clickOverlay()">
+    <div class="search-box">
+        <p>{{'searchResults' | translate}}</p>
     </div>
 </div>
 <img *ngIf="homepath" style="width: 100%;" src="../../../assets/images/სლაიდერი.jpg"/>

@@ -1,16 +1,19 @@
 <div class="wraper">
-    <div class="admin-menu">
-        <div (click)="goToGrid('რეგისტრაცია')" style="width: 130px;">
-            <i style="margin-right: 10px; color: #18A4E1;" class="fa-solid fa-bars"></i>
-            <a i18n >{{'registration' | translate}}</a> 
-        </div>
-        <div i18n (click)="goToGrid('კატეგორიები')">{{'categories' | translate}}</div>
-        <div i18n (click)="goToGrid('ექიმები')">{{'doctors' | translate}}</div>
+  <div class="admin-menu">
+    <div (click)="goToGrid('რეგისტრაცია')" style="width: 130px">
+      <i
+        style="margin-right: 10px; color: #18a4e1"
+        class="fa-solid fa-bars"
+      ></i>
+      <a i18n>{{ "registration" | translate }}</a>
     </div>
-    <button i18n class="button" (click)="logOut()">{{'logout' | translate}}</button>
-    <div class="button auth-button">
-        <p i18n>{{'two_factored' | translate}}</p>
-        <i *ngIf="turnOn" (click)="toggleTwoFactored()" class="fa-solid fa-toggle-on"></i>
-        <i *ngIf="!turnOn" (click)="toggleTwoFactored()" class="fa-solid fa-toggle-off"></i>
+    <div i18n (click)="goToGrid('კატეგორიები')">
+      {{ "categories" | translate }}
     </div>
+    <div i18n (click)="goToGrid('ექიმები')">{{ "doctors" | translate }}</div>
+  </div>
+  <button i18n class="button" (click)="logOut()">
+    {{ "logout" | translate }}
+  </button>
+ 
 </div>

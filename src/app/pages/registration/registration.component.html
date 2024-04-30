@@ -1,56 +1,148 @@
 <div class="container">
-    <form enctype="multipart/form-data" class="form" [formGroup]="form" (ngSubmit)="registration()">
-        <label i18n class="form-title">{{'registration' | translate}}</label>
-        <div class="form-div">
-            <div class="input-wraper">
-                <label i18n>{{'name' | translate}}</label>
-                <input formControlName="Name" required class="input" placeholder="{{'placeholder_name' | translate}}"/>
-            </div>
-            <div class="input-wraper">
-                <label i18n>{{'email' | translate}}</label>
-                <input formControlName="Email" required class="input" />
-            </div>
-            <div class="input-wraper">
-                <label i18n>{{'private' | translate}}</label>
-                <input formControlName="PrivateNumber" required class="input" placeholder="00000000000"/>
-            </div>
-            <div class="input-wraper">
-                <label i18n>{{'lastname' | translate}}</label>
-                <input formControlName="LastName" required class="input" />
-            </div>
-            <div class="input-wraper">
-                <label i18n>{{'password' | translate}}</label>
-                <input  formControlName="Password" required class="input" placeholder="{{'placeholder_password' | translate}}"/>
-            </div>
-            <div *ngIf="type==='ექიმი'" class="input-wraper">
-                <label i18n>{{'photo' | translate}}</label>
-                <input style="display: none;" #imageInput  type="file" required (change)="onFileSelected($event,'ProfileImage')"  class="input"/>
-                <div class="input" (click)="onImageClick()">
-                    <img class="img" src="../../../assets/images/Group.png"/>
-                </div>
-            </div>
-
-            <div *ngIf="type==='ექიმი'" class="input-wraper">
-                <label i18n>{{'category' | translate}}</label>
-                <select  formControlName="Category" class="input" >
-                    <option i18n *ngFor="let category of categories" [value]="category.category"  class="input">{{category.category}}</option>
-                </select>
-            </div>
-
-            <div *ngIf="type==='ექიმი'" class="input-wraper">
-                <label i18n>{{'cv' | translate}}</label>
-                <input style="display: none;" #fileInput type="file" id="file" (change)="onFileSelected($event,'Cv')"  class="input"/>
-                <div class="input" (click)="onFileClick()">
-                    <img class="img" src="../../../assets/images/document-new-svgrepo-com 1.png"/>
-                </div>
-            </div>
-            <div *ngIf="type==='ექიმი'" class="input-wraper">
-                <label i18n>{{'description' | translate}}</label>
-                <input type="text" formControlName="Description"  class="input"/>
-            </div>
-            <button i18n *ngIf="type!=='ექიმი'" type="submit" class="button">{{'registration' | translate}}</button>
+  <form
+    enctype="multipart/form-data"
+    class="form"
+    [formGroup]="form"
+    (ngSubmit)="registration()"
+  >
+    <label i18n class="form-title">{{ "registration" | translate }}</label>
+    <div class="form-div">
+      <div class="input-wraper">
+        <label i18n>{{ "name" | translate }}</label>
+        <input
+          [ngStyle]="{
+            'border-color':
+              form.get('Name')?.invalid && form.get('Name')?.touched
+                ? 'red'
+                : '#ECF2F8'
+          }"
+          formControlName="Name"
+          class="input"
+          placeholder="{{ 'placeholder_name' | translate }}"
+        />
+      </div>
+      <div class="input-wraper">
+        <label i18n>{{ "email" | translate }}</label>
+        <input
+          [ngStyle]="{
+            'border-color':
+              form.get('Email')?.invalid && form.get('Email')?.touched
+                ? 'red'
+                : '#ECF2F8'
+          }"
+          formControlName="Email"
+          class="input"
+        />
+      </div>
+      <div class="input-wraper">
+        <label i18n>{{ "private" | translate }}</label>
+        <input
+          [ngStyle]="{
+            'border-color':
+              form.get('PrivateNumber')?.invalid &&
+              form.get('PrivateNumber')?.touched
+                ? 'red'
+                : '#ECF2F8'
+          }"
+          formControlName="PrivateNumber"
+          class="input"
+          placeholder="00000000000"
+        />
+      </div>
+      <div class="input-wraper">
+        <label i18n>{{ "lastname" | translate }}</label>
+        <input
+          [ngStyle]="{
+            'border-color':
+              form.get('LastName')?.invalid && form.get('LastName')?.touched
+                ? 'red'
+                : '#ECF2F8'
+          }"
+          formControlName="LastName"
+          class="input"
+        />
+      </div>
+      <div class="input-wraper">
+        <label i18n>{{ "password" | translate }}</label>
+        <input
+          [ngStyle]="{
+            'border-color':
+              form.get('Password')?.invalid && form.get('Password')?.touched
+                ? 'red'
+                : '#ECF2F8'
+          }"
+          formControlName="Password"
+          class="input"
+          placeholder="{{ 'placeholder_password' | translate }}"
+        />
+      </div>
+      <div *ngIf="type === 'ექიმი'||type === 'Doctor'" class="input-wraper">
+        <label i18n>{{ "photo" | translate }}</label>
+        <input
+          style="display: none"
+          #imageInput
+          type="file"
+          (change)="onFileSelected($event, 'ProfileImage')"
+          class="input"
+        />
+        <div class="input" (click)="onImageClick()">
+          <img class="img" src="../../../assets/images/Group.png" />
         </div>
-        <button i18n *ngIf="type==='ექიმი'" type="submit" class="button">{{'registration' | translate}}</button>
-    </form>
-    <div i18n class="success-register" *ngIf="success">{{'success_register' | translate}}</div>
+      </div>
+
+      <div *ngIf="type === 'ექიმი'||type === 'Doctor'" class="input-wraper">
+        <label i18n>{{ "category" | translate }}</label>
+        <select formControlName="Category" class="input">
+          <option
+            i18n
+            *ngFor="let category of categories"
+            [value]="category.category"
+            class="input"
+          >
+            {{ category.category }}
+          </option>
+        </select>
+      </div>
+
+      <div *ngIf="type === 'ექიმი'||type === 'Doctor'" class="input-wraper">
+        <label i18n>{{ "cv" | translate }}</label>
+        <input
+          style="display: none"
+          #fileInput
+          type="file"
+          id="file"
+          (change)="onFileSelected($event, 'Cv')"
+          class="input"
+        />
+        <div class="input" (click)="onFileClick()">
+          <img
+            class="img"
+            src="../../../assets/images/document-new-svgrepo-com 1.png"
+          />
+        </div>
+      </div>
+      <div *ngIf="type === 'ექიმი'||type === 'Doctor'" class="input-wraper">
+        <label i18n>{{ "description" | translate }}</label>
+        <input type="text" formControlName="Description" class="input" />
+      </div>
+
+      <div class="button-wraper">
+        <button
+          i18n
+          *ngIf="type !== 'ექიმი'&&type !== 'Doctor'"
+          type="submit"
+          class="button reg-button"
+        >
+          {{ "registration" | translate }}
+        </button>
+      </div>
+      <button i18n *ngIf="type === 'ექიმი'||type === 'Doctor'" type="submit" class="button">
+        {{ "registration" | translate }}
+      </button>
+    </div>
+    
+  </form>
+  <div i18n class="success-register" *ngIf="success">
+    {{ "success_register" | translate }}
+  </div>
 </div>
