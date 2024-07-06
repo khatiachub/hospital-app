@@ -1,27 +1,8 @@
-# HospitalApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.1.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+![რეგისტრაცია](https://github.com/khatiachub/hospital-app/assets/101997849/a67f9803-4fcd-46f6-87dc-d3e3fa3c2171)
+![მომხმარებლის გვერდი](https://github.com/khatiachub/hospital-app/assets/101997849/95877320-6f63-4b36-89ea-17bdad31476e)
+![მთავარი](https://github.com/khatiachub/hospital-app/assets/101997849/1562048a-3ddd-4a31-9cf2-e80cf687c5ee)
+![ექიმის გვერდი](https://github.com/khatiachub/hospital-app/assets/101997849/9709e46e-5345-43ca-9278-2a817e464eb7)
+![დაჯავშნა](https://github.com/khatiachub/hospital-app/assets/101997849/0383817e-e609-4afd-b54b-913aab4747fc)
+![ავტორიზაცია](https://github.com/khatiachub/hospital-app/assets/101997849/472a1535-d2c4-4a19-a5d6-aa0387f5520b)
+![ადმინისტრატორი](https://github.com/khatiachub/hospital-app/assets/101997849/f8c5fb56-887c-4ff7-bae7-af2b58647ad4)
